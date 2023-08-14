@@ -7,6 +7,9 @@ title: Debugging Pages
 
 When setting up your Pages project, you may encounter various errors that prevent you from successfully deploying your site. This guide gives an overview of some common errors and solutions.
 
+## Tail the run time console log
+You can see the logs generated in real time by your Pages app by using the `wrangler pages deployment tail [deployment]` command. This starts a tailing session for a project's deployment and livestreams logs from your Pages site over to the local console.
+
 ## Check your build log
 
 You can review build errors in your Pages build log. To access your build log:
