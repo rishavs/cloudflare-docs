@@ -14,7 +14,7 @@ This tutorial explains how to analyze Cloudflare metrics using the [Cloudflare I
 Before viewing the Cloudflare dashboard in Datadog, note that this integration:
 
 - Is available to all Cloudflare customer plans (Free, Pro, Business and Enterprise)
-- Is based on the [Cloudflare Analytics API](https://api.cloudflare.com/#zone-analytics-dashboard)
+- Is based on the [Cloudflare Analytics API](/api/operations/zone-analytics-(-deprecated)-get-dashboard)
 - Provides Cloudflare web traffic and DNS metrics only
 - Does not feature data coming from request logs stored in Cloudflare Logs
 
@@ -27,7 +27,7 @@ To install the Cloudflare App for Datadog:
 2.  Click the **Integrations** tab.
 
 3.  In the **search box**, start typing _Cloudflare_. The app tile should appear below the search box.
-    ![Searching for Cloudflare App in the Datadog Integrations tab](/fundamentals/static/images/datadog/screenshots/datadog-integrations.png)
+    ![Searching for Cloudflare App in the Datadog Integrations tab](/images/fundamentals/datadog/screenshots/datadog-integrations.png)
 
 4.  Click the **Cloudflare** tile to begin the installation.
 
@@ -35,12 +35,12 @@ To install the Cloudflare App for Datadog:
 
     - **Account name**: (Optional) This can be any value. It has not impact on the site data pulled from Cloudflare.
 
-    - **Email**: This value helps keep your account safe. We recommend creating a dedicated Cloudflare user for analytics with the [_Analytics_ role](https://support.cloudflare.com/hc/articles/205065067#12345682) (read-only). Note that the _Analytics_ role is available to Enterprise customers only.
+    - **Email**: This value helps keep your account safe. We recommend creating a dedicated Cloudflare user for analytics with the [_Analytics_ role](/fundamentals/account-and-billing/members/roles/) (read-only). Note that the _Analytics_ role is available to Enterprise customers only.
 
-    - **API Key**: Enter your Cloudflare Global API key.
+    - **API Key**: Enter your Cloudflare Global API key. For details refer to [API Keys](/fundamentals/api/get-started/keys/).
 
 6.  Click **Install Integration**.
-    ![Configuring and installing the Datadog integration](/fundamentals/static/images/datadog/screenshots/cloudflare-tile-datadog-fill-details.png)
+    ![Configuring and installing the Datadog integration](/images/fundamentals/datadog/screenshots/cloudflare-tile-datadog-fill-details.png)
 
 The Cloudflare App for Datadog should be installed now and you can view the dashboard.
 
@@ -59,4 +59,4 @@ The dashboard displays the following metrics:
 - **Search Engine Bot Traffic**
 - **DNS** (DNS queries, response time, top hostnames, queries by type, stale vs. uncached queries)
 
-![Dashboard displaying metrics for a site on a Cloudflare account](/fundamentals/static/images/datadog/dashboards/cloudflare-dashboard-datadog.png)
+![Dashboard displaying metrics for a site on a Cloudflare account](/images/fundamentals/datadog/dashboards/cloudflare-dashboard-datadog.png)

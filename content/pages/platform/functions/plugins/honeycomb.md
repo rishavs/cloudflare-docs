@@ -16,6 +16,27 @@ $ npm install @cloudflare/pages-plugin-honeycomb
 
 ## Usage
 
+The following usage example uses environment variables you will need to set in your Pages project settings. 
+
+```typescript
+---
+filename: functions/_middleware.ts
+---
+import honeycombPlugin from "@cloudflare/pages-plugin-honeycomb";
+
+export const onRequest: PagesFunction<{
+  HONEYCOMB_API_KEY: string
+  HONEYCOMB_DATASET: string
+}> = (context) => {
+  return honeycombPlugin({
+    apiKey: context.env.HONEYCOMB_API_KEY,
+    dataset: context.env.HONEYCOMB_DATASET,
+  })(context);
+}
+```
+
+Alternatively, you can hard-code (not advisable for API key) your settings the following way:
+
 ```typescript
 ---
 filename: functions/_middleware.ts
@@ -32,7 +53,7 @@ This Plugin is based on the `@cloudflare/workers-honeycomb-logger` and accepts t
 
 Ensure that you enable the option to **Automatically unpack nested JSON** and set the **Maximum unpacking depth** to **5** in your Honeycomb dataset settings.
 
-![Follow the instructions above to toggle on Automatically unpack nested JSON and set the Maximum unpacking depth option to 5 in the Honeycomb dashboard](/pages/platform/functions/plugins/honeycomb.png)
+![Follow the instructions above to toggle on Automatically unpack nested JSON and set the Maximum unpacking depth option to 5 in the Honeycomb dashboard](/images/pages/platform/functions/honeycomb.png)
 
 ### Additional context
 

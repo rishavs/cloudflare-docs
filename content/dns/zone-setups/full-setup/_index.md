@@ -2,6 +2,7 @@
 pcx_content_type: concept
 title: Full setup
 weight: 1
+layout: single
 ---
 
 # Full setup
@@ -14,4 +15,4 @@ For more details, refer to [Set up a full domain](/dns/zone-setups/full-setup/se
 
 ## Availability
 
-Full setups are available to all Cloudflare customers.
+{{<feature-table id="dns.full_setup">}}

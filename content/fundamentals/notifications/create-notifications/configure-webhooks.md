@@ -1,13 +1,14 @@
 ---
 pcx_content_type: how-to
 title: Configure webhooks
+weight: 2
 ---
 
 # Configure webhooks
 
 {{<Aside type="note">}}
 
-This feature is only available if your account has at least one zone on a Professional or higher plan. For more information, see our [plans page](https://www.cloudflare.com/plans/).
+This feature is only available if your account has at least one paid feature. For more information, see our [plans page](https://www.cloudflare.com/plans/).
 
 {{</Aside>}}
 
@@ -33,13 +34,20 @@ After selecting **Save and Test**, your webhook should now be configured as a de
 
 When Cloudflare sends you a webhook, it will have the following schema:
 
-```txt
+```json
 {
-    "text": Hello World! This is a test message sent from https://cloudflare.com. If you can see this, your webhook is configured properly.
+    "text": "Hello World! This is a test message sent from https://cloudflare.com. If you can see this, your webhook is configured properly."
 }
 ```
 
 In the above example, `"text"` will vary depending on the alert that was fired.
+
+
+### Limitations of generic webhooks
+
+Cloudflare generic webhook notifications will only be dispatched to a publicly resolvable IP address on port 80 or 443.
+
+If you want to receive the generic webhook notification on a private IP address or different port you can either receive and forward the notification using [Workers](/workers/) or set up a [Cloudflare Tunnel](/cloudflare-one/connections/connect-networks/) to route to your connected application.
 
 ### Use generic webhooks with Workers
 
@@ -98,6 +106,12 @@ Cloudflare has an [example tool](https://github.com/cloudflare/cf-webhook-relay/
          <p>2. If SSL is enabled on the token, the port must be 443. If SSL is not enabled on the token, the port must be 8088.</p>
          <p>3. SSL must be enabled on the server.</p>         
       </td>
+   </tr>
+      <!-- Teams    -->
+   <tr>
+      <td valign="top"> <a target="_blank" rel="noopener noreferrer" href="https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook">Teams</a></td>
+      <td>The secret is part of the URL. Cloudflare parses this information automatically and there is no input needed from the user.</td>
+      <td>URL is provided by Teams when the Incoming Webhook connector is created.</td>
    </tr>
    <!-- generic webhook    -->
    <tr>

@@ -1,8 +1,8 @@
 ---
 pcx_content_type: navigation
-title: SSL for SaaS
-external_link: /cloudflare-for-saas/
-weight: 8
+title: Cloudflare for SaaS
+external_link: /cloudflare-for-platforms/cloudflare-for-saas/
+weight: 7
 _build:
   publishResources: false
   render: never

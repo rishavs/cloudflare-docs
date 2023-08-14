@@ -1,9 +1,12 @@
 ---
-pcx_content_type: tutorial
+pcx_content_type: navigation
 title: Installation
-weight: 4
+weight: 2
 ---
 
+
 # Installation
+
+{{<render file="_railgun-deprecation-notice.md">}}
 
 {{<directory-listing>}}

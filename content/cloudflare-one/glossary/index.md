@@ -9,21 +9,25 @@ layout: single
 
 Review definitions for Cloudflare Zero Trust terms.
 
-## [Cloudflare Zero Trust](https://www.cloudflare.com/products/zero-trust/)
+## Cloudflare Zero Trust
 
-Cloudflare Zero Trust the power of Cloudflare’s global network to your internal teams and infrastructure. Cloudflare Zero Trust empowers users with secure, fast and seamless access to any device on the Internet.
+[Cloudflare Zero Trust](https://www.cloudflare.com/products/zero-trust/) provides the power of Cloudflare’s global network to your internal teams and infrastructure. Cloudflare Zero Trust empowers users with secure, fast and seamless access to any device on the Internet.
 
-## [Cloudflare Access](https://www.cloudflare.com/products/zero-trust/access/)
+## Cloudflare Access
 
-Cloudflare Access replaces corporate VPNs with Cloudflare’s network. Instead of placing internal tools on a private network, customers deploy them in any environment, including hybrid or multi-cloud models, and secure them consistently with Cloudflare’s network.
+[Cloudflare Access](https://www.cloudflare.com/products/zero-trust/access/) replaces corporate VPNs with Cloudflare’s network. Instead of placing internal tools on a private network, customers deploy them in any environment, including hybrid or multi-cloud models, and secure them consistently with Cloudflare’s network.
 
-## [Cloudflare Gateway](https://www.cloudflare.com/products/zero-trust/gateway/)
+## Cloudflare Gateway
 
-Cloudflare Gateway is a modern next generation firewall between your user, device or network and the public Internet. Once you setup Cloudflare Gateway, Gateway's DNS filtering service will inspect all Internet bound DNS queries, log them and apply corresponding policies.
+[Cloudflare Gateway](https://www.cloudflare.com/products/zero-trust/gateway/) is a modern next generation firewall between your user, device or network and the public Internet. Once you setup Cloudflare Gateway, Gateway's DNS filtering service will inspect all Internet bound DNS queries, log them and apply corresponding policies.
 
-## [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/)
+## Cloudflare CASB
 
-Cloudflare Tunnel (formerly _Argo Tunnel_) establishes a secure outbound connection which runs in your infrastructure to connect the applications and machines to Cloudflare.
+[Cloudflare CASB](https://www.cloudflare.com/products/zero-trust/casb/) provides comprehensive visibility and control over SaaS apps so you can easily prevent data leaks and compliance violations. With Cloudflare CASB, you can detect insider threats, Shadow IT, risky data sharing, and bad actors.
+
+## Cloudflare Tunnel
+
+[Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/) (formerly _Argo Tunnel_) establishes a secure outbound connection which runs in your infrastructure to connect the applications and machines to Cloudflare.
 
 ## WARP client
 
@@ -31,17 +35,17 @@ Cloudflare Zero Trust customers can use the Cloudflare WARP application to conne
 
 ---
 
-## [App Launcher](/cloudflare-one/applications/app-launcher/)
+## App Launcher
 
-The App Launcher portal provides end users with a single dashboard from which they can open applications secured by Cloudflare Zero Trust.
+The [App Launcher](/cloudflare-one/applications/app-launcher/) portal provides end users with a single dashboard from which they can open applications secured by Cloudflare Zero Trust.
 
 ## active zone
 
 A DNS zone is a portion of the DNS namespace that is managed by a specific organization or administrator. For a domain to be active on Cloudflare, its nameservers need to be changed to Cloudflare's.
 
-## [application](/cloudflare-one/applications/)
+## application
 
-The resource being protected by Cloudflare Zero Trust. An application can be a subdomain, a path, or a SaaS application.
+The resource being protected by Cloudflare Zero Trust. An [application](/cloudflare-one/applications/) can be a subdomain, a path, or a SaaS application.
 
 ## Authenticated Origin Pulls
 
@@ -77,11 +81,15 @@ DoH uses port 443, which is the standard HTTPS traffic port, to wrap the DNS req
 
 ## DoH subdomain
 
-Each location in Cloudflare Zero Trust has a unique DoH subdomain (previously known as a _unique id_). If your organization uses DNS policies, you will need to enter your location's DoH subdomain as part of the WARP client settings. To find a location's DoH subdomain, navigate to **Gateway** > **Locations**, expand the location card for any given location, and get the subdomain of the DNS over HTTPS hostname. In the example below, the DoH subdomain is: `9y65g5srsm`.
+Each DNS location in Cloudflare Zero Trust has a unique DoH subdomain (previously known as a _unique id_). If your organization uses DNS policies, you will need to enter your location's DoH subdomain as part of the WARP client settings. To find a location's DoH subdomain, go to **Gateway** > **DNS Locations**, expand the card for any given location, and get the subdomain of the DNS over HTTPS hostname. In the example below, the DoH subdomain is: `9y65g5srsm`.
 
 | DNS over HTTPS hostname                               | DoH subdomain |
 | ----------------------------------------------------- | ------------- |
 | `https://9y65g5srsm.cloudflare-gateway.com/dns-query` | `9y65g5srsm`  |
+
+## DNS location
+
+[DNS locations](/cloudflare-one/connections/connect-devices/agentless/dns/locations/) are physical entities like offices, homes, retail stores, movie theatres or a data center.
 
 ## DNS over TLS
 
@@ -103,10 +111,6 @@ An identity provider (IdP or IDP) stores and manages users' digital identities. 
 
 An open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA.
 
-## [location](/cloudflare-one/connections/connect-devices/agentless/dns/locations/)
-
-Locations are physical entities like offices, homes, retail stores, movie theatres or a data center.
-
 ## mTLS
 
 _mutual TLS_
@@ -127,11 +131,11 @@ A simple identity layer on top of the OAuth 2.0 protocol. It allows Clients to v
 
 ## origin certificate
 
-[Cloudflare Origin Certificates](/ssl/origin-configuration/origin-ca/) are free SSL certificates issued by Cloudflare for installation on your origin server to facilitate end-to-end encryption for your visitors using HTTPS.
+{{<render file="_origin-certificate-definition.md" productFolder="fundamentals">}}
 
-## [policy](/cloudflare-one/policies/)
+## policy
 
-A set of rules that regulate your network activity, such as who logs in to your applications, or which websites your users can reach.
+A [policy](/cloudflare-one/policies/) is a set of rules that regulate your network activity, such as who logs in to your applications, or which websites your users can reach.
 
 ## RDP
 
@@ -139,15 +143,15 @@ _Remote Desktop Protocol_
 
 A protocol, or technical standard, for using a desktop computer remotely. RDP was initially released by Microsoft and is available for most Windows operating systems, but it can be used with Mac operating systems too.
 
-## [SafeSearch](/cloudflare-one/policies/filtering/dns-policies/#safesearch)
+## SafeSearch
 
-A feature of search engines that can help you filter explicit or offensive content. When you enable SafeSearch, the search engine filters explicit or offensive content and returns search results that are safe for children, you or at work.
+[SafeSearch](/cloudflare-one/policies/gateway/dns-policies/#safesearch) is a feature of search engines that can help you filter explicit or offensive content. When you enable SafeSearch, the search engine filters explicit or offensive content and returns search results that are safe for children, you or at work.
 
 ## SAML
 
 _Security Assertion Markup Language_
 
-A standardized way to tell external applications and services that a user is who they say they are. SAML makes single sign-on ([SSO](#SSO)) technology possible by providing a way to authenticate a user once and then communicate that authentication to multiple applications.
+A standardized way to tell external applications and services that a user is who they say they are. SAML makes single sign-on ([SSO](#sso)) technology possible by providing a way to authenticate a user once and then communicate that authentication to multiple applications.
 
 ## SASE
 
@@ -191,13 +195,13 @@ Your team domain is a unique subdomain assigned to your Cloudflare account; for 
 
 ## team name
 
-The customizable portion of your [team domain](#team-domain). You can view your team name in the Cloudflare Zero Trust dashboard under **Settings** > **General**.
+The customizable portion of your [team domain](#team-domain). You can view your team name in Cloudflare Zero Trust under **Settings** > **Custom Pages**.
 
 | team domain                             | team name        |
 | --------------------------------------- | ---------------- |
 | `<your-team-name>.cloudflareaccess.com` | `your-team-name` |
 
-To learn about the consequences of changing your team name, refer to the [FAQ](/cloudflare-one/faq/teams-getting-started-faq/#whats-a-team-domainteam-name).
+To learn about the consequences of changing your team name, refer to the [FAQ](/cloudflare-one/faq/teams-getting-started-faq/#whats-a-team-domain/team-name).
 
 ## Terraform
 

@@ -6,7 +6,7 @@ weight: 10
 
 # Glossary
 
-See definitions for Cloudflare terms.
+Review the definitions for terms used across Cloudflare's documentation.
 
 ## account
 
@@ -18,9 +18,13 @@ An allowlist list of items (usually websites, IP addresses, email addresses, etc
 
 **Related terms:** blocklist
 
+## apex domain
+
+Apex domain is used to refer to a domain that does not contain a subdomain part, such as `example.com` (without `www.`). It is also known as "root domain" or "naked domain".
+
 ## API key
 
-An API key is unique to each Cloudflare user and used to confirm identity when using the [Cloudflare API](https://api.cloudflare.com/#getting-started-endpoints).
+An API key is unique to each Cloudflare user and used to confirm identity when using the [Cloudflare API](/api/).
 
 **Related terms:** API token
 
@@ -36,7 +40,7 @@ In Cloudflare for Teams, an application is the resource being protected by Cloud
 
 ## backup codes
 
-Backup codes allow restoration of Cloudflare account access outside the normal [two-factor authentication process](https://support.cloudflare.com/hc/articles/200167906). A backup code becomes invalid after use.
+Backup codes allow restoration of Cloudflare account access outside the normal [two-factor authentication process](/support/account-management-billing/account-privacy-and-security/securing-user-access-with-two-factor-authentication-2fa/). A backup code becomes invalid after use.
 
 **Related terms:** two-factor authentication
 
@@ -88,7 +92,7 @@ Certificate pinning is a security mechanism used to prevent on-path attacks on t
 
 A set of encryption algorithms for establishing a secure communications connection. There are several cipher suites in wide use, and a client and server agree on the cipher suite to use when establishing the TLS connection. Support of multiple cipher suites allows compatibility across various clients.
 
-**Relevant links:** [cipher suites documentation](/ssl/ssl-tls/cipher-suites/)
+**Relevant links:** [cipher suites documentation](/ssl/reference/cipher-suites/)
 
 ## cloud
 
@@ -98,7 +102,7 @@ A network of remote servers used to store and maintain data.
 
 `cloudflared` is the software that powers Cloudflare Tunnel. `cloudflared` runs alongside origin servers to connect to Cloudflare's network, as well as client devices for non-HTTP traffic from user endpoints.
 
-**Relevant links:** [Connect applications with Cloudflare Tunnel](/cloudflare-one/connections/connect-apps/)
+**Relevant links:** [Connect applications with Cloudflare Tunnel](/cloudflare-one/connections/connect-networks/)
 
 ## content delivery network (CDN)
 
@@ -242,7 +246,7 @@ mTLS is a common security practice that uses client TLS certificates to provide 
 
 ## nameserver
 
-A nameserver is a dedicated server that translates human readable host names into IP addresses. Nameservers like root servers, TLD servers, and authoritative nameservers are fundamental components of the Domain Name System (DNS).
+A nameserver is a dedicated server that translates human readable hostnames into IP addresses. Nameservers like root servers, TLD servers, and authoritative nameservers are fundamental components of the Domain Name System (DNS).
 
 **Related terms:** DNS
 
@@ -260,10 +264,7 @@ The amount of data transferred from the origin server to Cloudflare within a cer
 
 ## Origin Certificate
 
-A Cloudflare Origin Certificate is a free TLS certificate issued by Cloudflare that can be installed on your origin server to facilitate end-to-end encryption for your visitors using HTTPS.
-
-**Related terms:** TLS
-**Relevant links:** [Cloudflare Origin Certificates](/ssl/origin-configuration/origin-ca/)
+{{<render file="_origin-certificate-definition.md">}}
 
 ## origin request
 
@@ -295,7 +296,7 @@ SSL public and private keys are essentially long strings of characters used for 
 
 ## roles
 
-Authorize which Cloudflare products and features a member is allowed to access in a Cloudflare account. Learn more about [roles](https://support.cloudflare.com/hc/articles/205065067#12345682).
+Authorize which Cloudflare products and features a member is allowed to access in a Cloudflare account. Learn more about [roles](/fundamentals/account-and-billing/members/roles/).
 
 ## root certificate
 
@@ -333,7 +334,7 @@ Static content is website content that can be delivered to an end user directly 
 
 ## Subject Alternative Name (SAN)
 
-The SAN field of an SSL certificate specifies additional host names (sites, IP addresses, common names, subdomains, root domains, etc.) protected by a single SSL Certificate.
+The SAN field of an SSL certificate specifies additional hostnames (sites, IP addresses, common names, subdomains, apex domains, etc.) protected by a single SSL Certificate.
 
 ## subscription, add-on, or plan extension
 
@@ -403,7 +404,7 @@ Uncached requests are requests that are not cached, and therefore are served fro
 
 ## usage-based billing
 
-Within subscriptions, certain products are charged based on usage. This is referred to as usage-based billing. The bill can vary month by month based on usage. This is in contrast to monthly flat fees such as for [plans](https://www.cloudflare.com/plans/) or additional [Page Rules](https://support.cloudflare.com/hc/articles/218411427).
+Within subscriptions, certain products are charged based on usage. This is referred to as usage-based billing. The bill can vary month by month based on usage. This is in contrast to monthly flat fees such as for [plans](https://www.cloudflare.com/plans/) or additional [Page Rules](/support/page-rules/understanding-and-configuring-cloudflare-page-rules-page-rules-tutorial/).
 
 ## web application firewall (WAF)
 

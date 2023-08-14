@@ -14,10 +14,11 @@ Use one of the following API endpoints:
 
 | Operation | Method + Endpoint |
 |-----------|-------------------|
-| [Patch an individual rule][ur-account] (account) | `PATCH /accounts/<ACCOUNT_ID>/rulesets/<RULESET_ID>/rules/<RULE_ID>` |
-| Patch an individual rule (zone) | `PATCH /zones/<ZONE_ID>/rulesets/<RULESET_ID>/rules/<RULE_ID>` |
+| [Update an account ruleset rule][ur-account] | `PATCH /accounts/{account_id}/rulesets/{ruleset_id}/rules/{rule_id}` |
+| [Update a zone ruleset rule][ur-zone] | `PATCH /zones/{zone_id}/rulesets/{ruleset_id}/rules/{rule_id}` |
 
-[ur-account]: https://api.cloudflare.com/#account-rulesets-patch-an-individual-rule
+[ur-account]: /api/operations/updateAccountRulesetRule
+[ur-zone]: /api/operations/updateZoneRulesetRule
 
 You can update the definition of the rule, changing its fields, or change the order of the rule in the ruleset. Invoking this method creates a new version of the ruleset.
 
@@ -29,11 +30,12 @@ To update the definition of a rule, include the new rule definition in the reque
 <summary>Request</summary>
 <div>
 
-```json
-curl -X PATCH \
-"https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/rulesets/<RULESET_ID>/rules/<RULE_ID_1>" \
--H "Authorization: Bearer <API_TOKEN>" \
--d '{
+```bash
+curl --request PATCH \
+https://api.cloudflare.com/client/v4/accounts/{account_id}/rulesets/{ruleset_id}/rules/{rule_id_1} \
+--header "Authorization: Bearer <API_TOKEN>" \
+--header "Content-Type: application/json" \
+--data '{
   "action": "js_challenge",
   "expression": "(ip.geoip.country eq \"GB\" or ip.geoip.country eq \"FR\") or cf.threat_score > 0",
   "description": "challenge GB and FR or based on IP Reputation"
@@ -64,7 +66,7 @@ The response includes the complete ruleset after updating the rule.
         "action": "js_challenge",
         "expression": "(ip.geoip.country eq \"GB\" or ip.geoip.country eq \"FR\") or cf.threat_score > 0",
         "description": "challenge GB and FR or based on IP Reputation",
-        "last_updated": "2021-03-22T12:54:58.144683Z",
+        "last_updated": "2023-03-22T12:54:58.144683Z",
         "ref": "<RULE_REF_1>",
         "enabled": true
       },
@@ -73,12 +75,12 @@ The response includes the complete ruleset after updating the rule.
         "version": "1",
         "action": "challenge",
         "expression": "not http.request.uri.path matches \"^/api/.*$\"",
-        "last_updated": "2020-11-23T11:36:24.192361Z",
+        "last_updated": "2022-11-23T11:36:24.192361Z",
         "ref": "<RULE_REF_2>",
         "enabled": true
       }
     ],
-    "last_updated": "2021-03-22T12:54:58.144683Z",
+    "last_updated": "2023-03-22T12:54:58.144683Z",
     "phase": "http_request_firewall_custom"
   },
   "success": true,
@@ -92,7 +94,7 @@ The response includes the complete ruleset after updating the rule.
 
 ## Change the order of a rule in a ruleset
 
-To reorder a rule in a list of ruleset rules, include a `position` field in the request, containing one of the following arguments:
+To reorder a rule in a list of ruleset rules, include a `position` object in the request, containing one of the following:
 
 *   `"before": "<RULE_ID>"` — Places the rule before rule `<RULE_ID>`. Use this argument with an empty rule ID value (`""`) to set the rule as the first rule in the ruleset.
 
@@ -102,11 +104,11 @@ To reorder a rule in a list of ruleset rules, include a `position` field in the 
 
 {{<Aside type="warning" header="Important">}}
 
-You can only use one of the arguments `before`, `after`, and `index` at a time.
+You can only use one of the `before`, `after`, and `index` fields at a time.
 
 {{</Aside>}}
 
-Reorder a rule without changing its definition by including only the `position` field in the `PATCH` request body. You can also update a rule definition and reorder it in the same `PATCH` request by including both the `rule` field and the `position` field.
+Reorder a rule without changing its definition by including only the `position` object in the `PATCH` request body. You can also update a rule definition and reorder it in the same `PATCH` request by including both the `rule` object and the `position` object.
 
 The following examples build upon the following (abbreviated) ruleset:
 
@@ -123,16 +125,17 @@ The following examples build upon the following (abbreviated) ruleset:
 
 ### Example #1
 
-The following request with the `position` field places rule `<RULE_ID_2>` as the first rule:
+The following request with the `position` object places rule `<RULE_ID_2>` as the first rule:
 
-```json
+```bash
 ---
 header: Request
 ---
-curl -X PATCH \
-"https://api.cloudflare.com/client/v4/zones/<ZONE_ID>/rulesets/<RULESET_ID>/rules/<RULE_ID_2>" \
--H "Authorization: Bearer <API_TOKEN>" \
--d '{
+curl --request PATCH \
+https://api.cloudflare.com/client/v4/zones/{zone_id}/rulesets/{ruleset_id}/rules/{rule_id_2} \
+--header "Authorization: Bearer <API_TOKEN>" \
+--header "Content-Type: application/json" \
+--data '{
   "position": {
     "before": ""
   }
@@ -145,16 +148,17 @@ In this case, the new rule order would be:
 
 ### Example #2
 
-The following request with the `position` field places rule `<RULE_ID_2>` after rule 3:
+The following request with the `position` object places rule `<RULE_ID_2>` after rule 3:
 
-```json
+```bash
 ---
 header: Request
 ---
-curl -X PATCH \
-"https://api.cloudflare.com/client/v4/zones/<ZONE_ID>/rulesets/<RULESET_ID>/rules/<RULE_ID_2>" \
--H "Authorization: Bearer <API_TOKEN>" \
--d '{
+curl --request PATCH \
+https://api.cloudflare.com/client/v4/zones/{zone_id}/rulesets/{ruleset_id}/rules/{rule_id_2} \
+--header "Authorization: Bearer <API_TOKEN>" \
+--header "Content-Type: application/json" \
+--data '{
   "position": {
     "after": "<RULE_ID_3>"
   }
@@ -167,20 +171,21 @@ In this case, the new rule order would be:
 
 ### Example #3
 
-The following request with the `position` field places rule `<RULE_ID_1>` in position 3, becoming the third rule in the ruleset:
+The following request with the `position` object places rule `<RULE_ID_1>` in position 3, becoming the third rule in the ruleset:
 
-```json
+```bash
 ---
 header: Request
 ---
-curl -X PATCH \
-"https://api.cloudflare.com/client/v4/zones/<ZONE_ID>/rulesets/<RULESET_ID>/rules/<RULE_ID_1>" \
--H "Authorization: Bearer <API_TOKEN>" \
--d '{
+curl --request PATCH \
+https://api.cloudflare.com/client/v4/zones/{zone_id}/rulesets/{ruleset_id}/rules/{rule_id_1} \
+--header "Authorization: Bearer <API_TOKEN>" \
+--header "Content-Type: application/json" \
+--data '{
   "position": {
     "index": 3
   }
-}
+}'
 ```
 
 In this case, the new rule order would be:

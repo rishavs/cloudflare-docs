@@ -1,7 +1,7 @@
 ---
 pcx_content_type: reference
 title: Track
-weight: 4
+weight: 1
 meta:
   title: zaraz.track
 ---
@@ -10,7 +10,7 @@ meta:
 
 You can use `zaraz.track()` anywhere inside the `<body>` tag of a page.
 
-`zaraz.track()` allows you to track custom events on your website, that might happen in real time.
+`zaraz.track()` allows you to track custom events on your website, that might happen in real time. It is an `async` function, so you can choose to `await` it if you would like to make sure it completed before running other code.
 
 Example of user events you might be interested in tracking are successful sign-ups, calls-to-action clicks, or purchases. Common examples for other types of events are tracking the impressions of specific elements on a page, or loading a specific widget.
 
@@ -40,6 +40,6 @@ After using `zaraz.track()` in your website, you will usually want to create a t
 
 {{</table-wrap>}}
 
-In every tool you want to use this trigger, add an action with this trigger [configured as a firing trigger](/zaraz/get-started/create-actions/). Each action that uses this trigger can access the `eventProperties` you have sent. In the **Action** fields, you can use `{{ client.<KEY_NAME> }}` to get the value of `<KEY_NAME>`. In the above example, Zaraz will replace `{{ client.value }}` with `200`.
+In every tool you want to use this trigger, add an action with this trigger [configured as a firing trigger](/zaraz/get-started/create-actions/). Each action that uses this trigger can access the `eventProperties` you have sent. In the **Action** fields, you can use `{{ client.<KEY_NAME> }}` to get the value of `<KEY_NAME>`. In the above example, Zaraz will replace `{{ client.value }}` with `200`. If your key includes special characters or numbers, surround it with backticks like ```{{ client.`<KEY_NAME>` }}```.
 
 For more information regarding the properties you can use with `zaraz.track()`, refer to [Properties reference](/zaraz/reference/properties-reference/).

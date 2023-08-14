@@ -7,17 +7,17 @@ title: Fetch
 
 The [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) provides an interface for asynchronously fetching resources via HTTP requests inside of a Worker.
 
-The `fetch` method is implemented on the `ServiceWorkerGlobalScope`. Refer to [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) for more information.
+The `fetch` method is implemented on the `ServiceWorkerGlobalScope`. Refer to [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/fetch) for more information.
 
 {{<Aside type="note">}}
 
-Asynchronous tasks such as `fetch` are not executed at the top level in a Worker script and must be executed within a `FetchEvent` handler such as [`respondWith`](/workers/runtime-apis/fetch-event/#methods). Learn more about [the Request context](/workers/runtime-apis/request/#the-request-context).
+Asynchronous tasks such as `fetch` are not executed at the top level in a Worker script and must be executed within a `FetchEvent` handler such as [`respondWith`](/workers/runtime-apis/fetch-event/#respondwith). Learn more about [the Request context](/workers/runtime-apis/request/#the-request-context).
 
 {{</Aside>}}
 
 {{<Aside type="warning" header="Worker to Worker">}}
 
-Worker-to-Worker `fetch` requests are now possible with [Service bindings](/workers/platform/bindings/about-service-bindings/).
+Worker-to-Worker `fetch` requests are now possible with [Service bindings](/workers/configuration/bindings/about-service-bindings/).
 
 {{</Aside>}}
 
@@ -47,15 +47,13 @@ async function eventHandler(event) {
 
 {{<definitions>}}
 
-- {{<code>}}fetch(){{</code>}} {{<type-link href="/runtime-apis/response">}}Promise{`<Response>`}{{</type-link>}}
+- {{<code>}}fetch(request, init {{<prop-meta>}}optional{{</prop-meta>}}){{</code>}} : {{<type-link href="/runtime-apis/response">}}Promise`<Response>`{{</type-link>}}
 
   - Fetch returns a promise to a Response.
 
 {{</definitions>}}
 
----
-
-## Properties
+### Parameters
 
 {{<definitions>}}
 

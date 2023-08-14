@@ -12,27 +12,28 @@ Deletes a single rule in a ruleset at the account or zone level.
 
 Use one of the following API endpoints:
 
-| Operation                                         | Method + Endpoint                                                     |
-| ------------------------------------------------- | --------------------------------------------------------------------- |
-| [Delete an individual rule][dr-account] (account) | `DELETE /accounts/<ACCOUNT_ID>/rulesets/<RULESET_ID>/rules/<RULE_ID>` |
-| Delete an individual rule (zone)                  | `DELETE /zones/<ZONE_ID>/rulesets/<RULESET_ID>/rules/<RULE_ID>`       |
+| Operation                                    | Method + Endpoint                                                     |
+| -------------------------------------------- | --------------------------------------------------------------------- |
+| [Delete an account ruleset rule][dr-account] | `DELETE /accounts/{account_id}/rulesets/{ruleset_id}/rules/{rule_id}` |
+| [Delete a zone ruleset rule][dr-zone]        | `DELETE /zones/{zone_id}/rulesets/{ruleset_id}/rules/{rule_id}`       |
 
-[dr-account]: https://api.cloudflare.com/#account-rulesets-delete-an-individual-rule
+[dr-account]: /api/operations/deleteAccountRulesetRule
+[dr-zone]: /api/operations/deleteZoneRulesetRule
 
 If the delete operation succeeds, the API method call returns a `200 OK` HTTP status code with the complete ruleset in the response body.
 
 ## Example
 
-The following example deletes rule `<RULE_ID_1>` belonging to ruleset `<RULESET_ID>`.
+The following example deletes rule `{rule_id_1}` belonging to ruleset `{ruleset_id}`.
 
 <details open>
 <summary>Request</summary>
 <div>
 
 ```bash
-curl -X DELETE \
-"https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/rulesets/<RULESET_ID>/rules/<RULE_ID_1>" \
--H "Authorization: Bearer <API_TOKEN>"
+curl --request DELETE \
+https://api.cloudflare.com/client/v4/accounts/{account_id}/rulesets/{ruleset_id}/rules/{rule_id_1} \
+--header "Authorization: Bearer <API_TOKEN>"
 ```
 
 </div>

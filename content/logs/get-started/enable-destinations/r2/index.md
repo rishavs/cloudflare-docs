@@ -1,26 +1,24 @@
 ---
 pcx_content_type: how-to
-title: Enable Cloudflare R2 
+title: Enable Cloudflare R2
 weight: 40
 layout: single
 ---
 
 # Enable Logpush to Cloudflare R2
 
-Cloudflare Logpush supports pushing logs directly to R2 via the Cloudflare dashboard or via API. 
+Cloudflare Logpush supports pushing logs directly to R2 via the Cloudflare dashboard or via API.
 
-We are offering Enterprise customers interested in storing their logs on Cloudflare access to R2 for evaluation and testing. Note that at this time we are not offering an SLA for R2. It should not be used for production use cases where logs are mission-critical. 
-
-During this phase, we will not be charging for R2 usage. We will be providing 30 days notice ahead of any charges. At that time, your account team will reach out to discuss interest in signing a contract for R2 usage. We expect to start charging for R2 in Q4 2022.
+For more information about R2, refer to the [Cloudflare R2](/r2/) documentation.
 
 Before getting started:
 
 - Create an R2 bucket and set up R2 API tokens.
 
-    1. Navigate to the R2 UI > **Create bucket**.
+    1. Go to the R2 UI > **Create bucket**.
 
-    2. Click **Manage R2 API Tokens**.
-    
+    2. Select **Manage R2 API Tokens**.
+
     3. Select **Create API token**.
 
     4. Under **Permission**, select **Edit** permissions for your token.
@@ -41,35 +39,25 @@ Before getting started:
 
 Enable Logpush to R2 via the dashboard.
 
-1.  Log in to the Cloudflare dashboard.
+{{<render file="_enable-logpush-job.md">}}
 
-2.  Select the Enterprise domain you want to use with Logpush.
+7. In **Select a destination**, choose **R2 Object Storage**.
 
-3.  Go to **Analytics** > **Logs**.
-
-4.  Click **Connect a service** and a modal window will open.
-
-5.  Select the dataset you want to push to a storage service.
-
-6.  Select the data fields to include in your logs. Add or remove fields later by modifying your settings in **Logs** > **Logpush**.
-
-7.  Select R2.
-
-8.  Enter the following destination information:
-    - Bucket path
-    - R2 access key id
+8. Enter the following destination information:
+    - Bucket path, for example, `cloudflare-logs/http_requests/example.com`
+    - R2 access key ID
     - R2 secret access key
 
-9.  Click **Validate access**.
+9. Select **Validate access**.
 
-10.  Click **Save and Start Pushing** to finish enabling the Logpush job.
+10. Select **Save and Start Pushing** to finish enabling the Logpush job.
 
 ## Manage via API
 
 To create a job, make a `POST` request to the Logpush jobs endpoint with the following fields:
 
 - **name** (optional) - Use your domain name as the job name.
-- **destination_conf** - A log destination consisting of an endpoint name, bucket name, access key id and secret key.
+- **destination_conf** - A log destination consisting of bucket path, account ID, R2 access key ID and R2 secret access key.
 
 {{<Aside type="note" header="Note">}}
 We recommend adding the `{DATE}` parameter in the `destination_conf` to separate your logs into daily subfolders.

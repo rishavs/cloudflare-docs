@@ -7,7 +7,7 @@ meta:
 
 # JavaScript and web standards
 
-The Workers runtime provides the following standardized APIs for use by Workers running at the edge.
+The Workers runtime provides the following standardized APIs for use by Workers running on Cloudflare's global network.
 
 ---
 
@@ -31,11 +31,11 @@ The following methods are available per the [Worker Global Scope](https://develo
 
 {{<definitions>}}
 
-- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/atob">}}atob(){{</type-link>}}
+- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/atob">}}atob(){{</type-link>}}
 
   - Decodes a string of data which has been encoded using base-64 encoding.
 
-- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa">}}btoa(){{</type-link>}}
+- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/btoa">}}btoa(){{</type-link>}}
 
   - Creates a base-64 encoded ASCII string from a string of binary data.
 
@@ -45,21 +45,21 @@ The following methods are available per the [Worker Global Scope](https://develo
 
 {{<definitions>}}
 
-- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval">}}setInterval(){{</type-link>}}
+- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/setInterval">}}setInterval(){{</type-link>}}
 
   - Schedules a function to execute every time a given number of milliseconds elapses.
 
-- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/clearInterval">}}clearInterval(){{</type-link>}}
+- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/clearInterval">}}clearInterval(){{</type-link>}}
 
-  - Cancels the repeated execution set using [`setInterval()`](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval).
+  - Cancels the repeated execution set using [`setInterval()`](https://developer.mozilla.org/en-US/docs/Web/API/setInterval).
 
-- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout">}}setTimeout(){{</type-link>}}
+- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout">}}setTimeout(){{</type-link>}}
 
   - Schedules a function to execute in a given amount of time.
 
-- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/clearTimeout">}}clearTimeout(){{</type-link>}}
+- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout">}}clearTimeout(){{</type-link>}}
 
-  - Cancels the delayed execution set using [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout).
+  - Cancels the delayed execution set using [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout).
 
 {{</definitions>}}
 
@@ -69,11 +69,11 @@ Timers are only available inside of [the Request Context](/workers/runtime-apis/
 
 {{</Aside>}}
 
-### EventTarget and Event
+### `EventTarget` and `Event`
 
 The [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget) and [`Event`](https://developer.mozilla.org/en-US/docs/Web/API/Event) API allow objects to publish and subscribe to events.
 
-### AbortController and AbortSignal
+### `AbortController` and `AbortSignal`
 
 The [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) and [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) APIs provide a common model for canceling asynchronous operations.
 
@@ -81,7 +81,7 @@ The [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortCo
 
 {{<definitions>}}
 
-- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch">}}fetch(){{</type-link>}}
+- {{<type-link href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">}}fetch(){{</type-link>}}
 
   - Starts the process of fetching a resource from the network. Refer to [Fetch API](/workers/runtime-apis/fetch/).
 
@@ -101,11 +101,13 @@ Both `TextEncoder` and `TextDecoder` support UTF-8 encoding/decoding.
 
 [Refer to the MDN documentation for more information](https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API).
 
+The [`TextEncoderStream`](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoderStream) and [`TextDecoderStream`](https://developer.mozilla.org/en-US/docs/Web/API/TextDecoderStream) classes are also available.
+
 ---
 
 ## URL API
 
-The URL API supports URLs conforming to HTTP and HTTPs schemes.
+The URL API supports URLs conforming to HTTP and HTTPS schemes.
 
 [Refer to the MDN documentation for more information](https://developer.mozilla.org/en-US/docs/Web/API/URL)
 
@@ -113,9 +115,7 @@ The URL API supports URLs conforming to HTTP and HTTPs schemes.
 
 The default URL class behavior differs from the URL Spec documented above.
 
-A new spec-compliant implementation of the URL class can be enabled using the `url_standard` [compatibility flag](/workers/platform/compatibility-dates/#compatibility-flags).
-
-If you would like to use another URL implementation, you can [shim the URL class using webpack](/workers/wrangler/cli-wrangler/webpack/#shimming-globals).
+A new spec-compliant implementation of the URL class can be enabled using the `url_standard` [compatibility flag](/workers/configuration/compatibility-dates/#compatibility-flags).
 
 {{</Aside>}}
 
@@ -123,16 +123,41 @@ If you would like to use another URL implementation, you can [shim the URL class
 
 ## Compression Streams
 
-The `CompressionStream` and `DecompressionStream` classes support gzip and deflate compression methods.
+The `CompressionStream` and `DecompressionStream` classes support the deflate, deflate-raw and gzip compression methods.
 
 [Refer to the MDN documentation for more information](https://developer.mozilla.org/en-US/docs/Web/API/Compression_Streams_API)
 
+---
+
 ## URLPattern API
 
-The URLPattern API provides a mechanism for matching URLs based on a convenient pattern syntax.
+The `URLPattern` API provides a mechanism for matching URLs based on a convenient pattern syntax.
 
 [Refer to the MDN documentation for more information](https://developer.mozilla.org/en-US/docs/Web/API/URLPattern).
 
+---
+
 ## `navigator.userAgent`
 
-When the [`global_navigator`](/workers/platform/compatibility-dates/#global_navigator) compatibility flag is set, the [`navigator.userAgent`](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/userAgent) property is available with the value `'Cloudflare-Workers'`. This can be used, for example, to reliably determine that code is running within the Workers environment.
+When the [`global_navigator`](/workers/configuration/compatibility-dates/#global-navigator) compatibility flag is set, the [`navigator.userAgent`](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/userAgent) property is available with the value `'Cloudflare-Workers'`. This can be used, for example, to reliably determine that code is running within the Workers environment.
+
+## Unhandled promise rejections
+
+The [`unhandledrejection`](https://developer.mozilla.org/en-US/docs/Web/API/Window/unhandledrejection_event) event is emitted by the global scope when a JavaScript promise is rejected without a rejection handler attached.
+
+The [`rejectionhandled`](https://developer.mozilla.org/en-US/docs/Web/API/Window/rejectionhandled_event) event is emitted by the global scope when a JavaScript promise rejection is handled late (after a rejection handler is attached to the promise after an `unhandledrejection` event has already been emitted).
+
+```js
+---
+header: worker.js
+---
+addEventListener('unhandledrejection', (event) => {
+  console.log(event.promise);  // The promise that was rejected.
+  console.log(event.reason);  // The value or Error with which the promise was rejected.
+});
+
+addEventListener('rejectionhandled', (event) => {
+  console.log(event.promise);  // The promise that was rejected.
+  console.log(event.reason);  // The value or Error with which the promise was rejected.
+});
+```

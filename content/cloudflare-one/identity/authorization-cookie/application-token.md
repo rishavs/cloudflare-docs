@@ -1,5 +1,5 @@
 ---
-pcx-content-type: reference
+pcx_content_type: reference
 title: Application token
 weight: 2
 ---
@@ -76,7 +76,7 @@ User identity is useful for checking application permissions. For example, your 
 Due to cookie size limits and bandwidth considerations, the application token only contains a subset of the user's identity. To get the user's full identity, send the `CF_Authorization` cookie to `https://<your-team-name>.cloudflareaccess.com/cdn-cgi/access/get-identity`. Your request should be structured as follows:
 
 ```sh
-curl -H 'cookie: CF_Authorization=<user-token>' https://<your-team-name>.cloudflareaccess.com/cdn-cgi/access/get-identity
+$ curl -H 'cookie: CF_Authorization=<user-token>' https://<your-team-name>.cloudflareaccess.com/cdn-cgi/access/get-identity
 ```
 
 Access will return a JSON structure containing the following data:
@@ -104,6 +104,6 @@ Access will return a JSON structure containing the following data:
 
 ## Signature
 
-Cloudflare generates the signature by signing the encoded header and payload using the SHA-256 algorithm (RS256). In RS256, a private key signs the JWTs and a separate [public key](/cloudflare-one/identity/authorization-cookie/validating-json/#access-signing-key) verifies the signature.
+Cloudflare generates the signature by signing the encoded header and payload using the SHA-256 algorithm (RS256). In RS256, a private key signs the JWTs and a separate [public key](/cloudflare-one/identity/authorization-cookie/validating-json/#access-signing-keys) verifies the signature.
 
 For more information on JWTs, refer to [jwt.io](https://jwt.io/).

@@ -1,15 +1,12 @@
 ---
 title: FAQ
 pcx_content_type: faq
-weight: 11
+weight: 12
 meta:
   title: Frequently asked questions about Cloudflare Stream
 ---
 
 # Frequently asked questions about Cloudflare Stream
-
-- [Stream](#stream)
-- [Stream Live](#stream-live)
 
 ## Stream
 
@@ -29,7 +26,7 @@ You cannot download the _exact_ input file that you uploaded. However, depending
 
 - By default, a video upload can be at most 30 GB.
 
-- By default, you can have up to 120 videos in the `inprogress`, `queued` or `downloading` state at the same time. Videos in the `error`, `ready` or `pendingupload` state do not count toward this limit. If you need the concurrency limit raised, please [contact Cloudflare support](https://support.cloudflare.com/hc/articles/200172476) explaining your use case and why you would like the limit raised.
+- By default, you can have up to 120 videos in the `inprogress`, `queued` or `downloading` state at the same time. Videos in the `error`, `ready` or `pendingupload` state do not count toward this limit. If you need the concurrency limit raised, please [contact Cloudflare support](/support/troubleshooting/general-troubleshooting/contacting-cloudflare-support/) explaining your use case and why you would like the limit raised.
 
 {{<Aside type="note">}}
 
@@ -52,6 +49,10 @@ Yes. Stream videos can be embedded on any domain, even domains not on Cloudflare
 Users can upload video in the following file formats:
 
 MP4, MKV, MOV, AVI, FLV, MPEG-2 TS, MPEG-2 PS, MXF, LXF, GXF, 3GP, WebM, MPG, QuickTime
+
+### Does Stream support High Dynamic Range (HDR) video content?
+
+When HDR videos are uploaded to Stream, they are re-encoded and delivered in SDR format, to ensure compatibility with the widest range of viewing devices.
 
 ### What frame rates (FPS) are supported?
 
@@ -144,32 +145,3 @@ Content-Security-Policy: connect-src 'self' *.videodelivery.net *.cloudflarestre
 ```
 
 To ensure **only** videos from **your** Cloudflare Stream account can be played on your website, replace `*` in `*.cloudflarestream.com` and `*.videodelivery.net` in the examples above with `customer-<CODE>`, replacing `<CODE>` with your unique customer code, which can be found in the Stream Dashboard [here](https://dash.cloudflare.com/?to=/:account/stream). This code is unique to your Cloudflare Account.
-
-## Stream Live
-
-### Do I need a separate Stream Live subscription to use Stream Live?
-
-As long as you have a Cloudflare Stream subscription, you can use all the features of Stream Live. You do not need to add another subscription.
-
-### How does billing work for Stream Live?
-
-Stream Live billing works the same way as Stream On-demand:
-
-- You pay $5 per 1000 minutes of recorded video.
-- You pay $1 per 1000 minutes of delivered video.
-
-All Stream Live videos are automatically recorded. There is no additional cost for encoding and packaging live videos.
-
-### How many live inputs can I create? Are there any other limits?
-
-Some limits apply to the Stream Live Beta:
-
-- You can create up to 1000 live inputs per account.
-- You can configure up to 50 outputs per live input.
-- You should use a maximum recommended bitrate of 12000 kbps.
-
-If your use case requires the limits to be increased, please contact support.
-
-### How does Stream Live handle RTMP reconnections?
-
-As long as your streaming software reconnects, Stream Live will continue to ingest and stream your live video. Make sure the streaming software you use to push RTMP feeds automatically reconnects if the connection breaks. Some apps like OBS reconnect automatically while other apps like FFmpeg require custom configuration.

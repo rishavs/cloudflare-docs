@@ -12,11 +12,13 @@ meta:
 
 {{<content-column>}}
 
-Cloudflare Zero Trust replaces legacy security perimeters with our global edge, making the Internet faster and safer for teams around the world.
+Cloudflare Zero Trust replaces legacy security perimeters with our global network, making the Internet faster and safer for teams around the world.
+
+{{<render file="_non-contract-enablement.md" productFolder="fundamentals" >}}
 
 **Zero Trust access for all of your applications.**
 
-* Authenticate users on our global edge network
+* Authenticate users on our global network
 * Onboard third-party users seamlessly
 * Log every event and request
 
@@ -38,6 +40,12 @@ Cloudflare Zero Trust replaces legacy security perimeters with our global edge, 
 * Detect insider threats and unsanctioned application usage, or Shadow IT
 * Ensure best practices to prevent data leaks and compliance violations
 
-![](/cloudflare-one/static/documentation/teams-no-background.png)
+**A Data Loss Prevention solution to safeguard data in transit.**
+
+* Detect sensitive data as it moves to and from SaaS applications
+* Predefined DLP Profiles to quickly get started
+* Log or block DLP matches
+
+![](/images/cloudflare-one/teams-no-background.png)
 
 {{</content-column>}}

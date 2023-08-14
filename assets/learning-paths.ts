@@ -1,6 +1,4 @@
-import * as learningPath from "json/learning_paths.json";
-
-let paths = learningPath["default"];
+import { learning_paths as paths } from "./json-collector";
 
 function buildHtml(destination, array) {
   const numTrails = document.getElementById("numTrails");
@@ -30,7 +28,8 @@ function getSelectValues(selectElementCollection: HTMLCollectionOf<Element>) {
   let selectedValues: Record<string, string> = {};
   for (const htmlElement of selectElementCollection) {
     let selectElement = htmlElement as HTMLSelectElement;
-    let selectedValue = selectElement.options[selectElement.selectedIndex].value;
+    let selectedValue =
+      selectElement.options[selectElement.selectedIndex].value;
     selectedValues[selectElement.id] = selectedValue;
   }
   return selectedValues;
@@ -44,12 +43,18 @@ export function filterResults() {
     for (const dropdown of selectorDropdowns) {
       dropdown.addEventListener("change", () => {
         let selectedOptions = getSelectValues(selectorDropdowns);
-        if (Object.values(selectedOptions).every(selectedValue => selectedValue === "all")) {
+        if (
+          Object.values(selectedOptions).every(
+            (selectedValue) => selectedValue === "all"
+          )
+        ) {
           passed = paths;
         } else {
           passed = paths.filter((currentPath) => {
             let keepItem = true;
-            for (const [filterName, filterValue] of Object.entries(selectedOptions)) {
+            for (const [filterName, filterValue] of Object.entries(
+              selectedOptions
+            )) {
               if (filterValue === "all") {
                 continue;
               } else if (!currentPath[filterName].includes(filterValue)) {

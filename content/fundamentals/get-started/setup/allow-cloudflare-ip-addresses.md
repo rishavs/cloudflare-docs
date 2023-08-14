@@ -10,12 +10,14 @@ Because of [how Cloudflare works](/fundamentals/get-started/concepts/how-cloudfl
 
 This setup can cause issues if your origin server blocks or rate limits connections from Cloudflare IP addresses. Because all visitor traffic will appear to come from Cloudflare IP addresses, blocking these IPs — even accidentally — will prevent visitor traffic from reaching your application.
 
+For [Magic Transit](/magic-transit/) customers, Cloudflare routes the traffic instead of proxying it. Once Cloudflare starts advertising your IP prefixes, it will accept IP packets destined for your network, process them, and then output these packets to your origin infrastructure.
+
 ## Review external tools
 
 To avoid blocking Cloudflare IP addresses unintentionally, review your external tools to check that:
 
 - Any security plugins — such as those for WordPress — allow Cloudflare IP addresses.
-- [Bad Behavior](https://support.cloudflare.com/hc/articles/200169496) and [mod_security](https://github.com/SpiderLabs/ModSecurity) plugins are up to date.
+- The [mod_security](https://github.com/SpiderLabs/ModSecurity) plugin is up to date.
 
 ## Configure origin server
 
@@ -42,11 +44,11 @@ As a best practice, we also recommend that you explicitly block all traffic that
 
 For example, you might [update your iptables](https://www.linode.com/docs/guides/control-network-traffic-with-iptables/#block-or-allow-traffic-by-port-number-to-create-an-iptables-firewall) with the following commands:
 
-```bash
+```sh
 # For IPv4 addresses
-iptables -A INPUT -p tcp --dport http,https -j DROP
+$ iptables -A INPUT -p tcp -m multiport --dports http,https -j DROP
 # For IPv6 addresses
-ip6tables -A INPUT -p tcp --dport http,https -j DROP
+$ ip6tables -A INPUT -p tcp -m multiport --dports http,https -j DROP
 ```
 
 For more specific guidance, contact your hosting provider or website administrator.

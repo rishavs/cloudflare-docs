@@ -14,7 +14,7 @@ If you initially set up a partial domain on Cloudflare, you can later migrate it
 
 In the Cloudflare dashboard, either order an [advanced certificate](/ssl/edge-certificates/advanced-certificate-manager/manage-certificates/) or [upload a custom SSL certificate](/ssl/edge-certificates/custom-certificates/uploading/) for your application.
 
-You also should verify that the [status](/ssl/ssl-tls/certificate-statuses/) of your SSL certificate is **Active**.
+You also should verify that the [status](/ssl/reference/certificate-statuses/) of your SSL certificate is **Active**.
 
 {{<Aside type="note">}}
 
@@ -28,7 +28,7 @@ At least 24 hours prior to converting your application, disable DNSSEC at your a
 
 {{<Aside type="note">}}
 
-As a best practice, you should also delete the previous [zone activation TXT record](/dns/zone-setups/partial-setup/setup/#step-1--add-your-domain-to-cloudflare) at your authoritative DNS provider. To locate this value in the Cloudflare dashboard, go to **DNS** and find the **Verification TXT Record**.
+As a best practice, you should also delete the previous [zone activation TXT record](/dns/zone-setups/partial-setup/setup/#add-your-domain-to-cloudflare) at your authoritative DNS provider. To locate this value in the Cloudflare dashboard, go to **DNS** > **Records** and find the **Verification TXT Record**.
   
 {{</Aside>}}
 
@@ -37,15 +37,15 @@ As a best practice, you should also delete the previous [zone activation TXT rec
 
 In the Cloudflare dashboard:
 
-1.  Go to **Overview** > **Advanced Actions**.
-2.  Click **Convert to Full DNS setup** (this will not affect how your traffic is proxied).
+1.  Go to **DNS** > **Settings**.
+2.  Click **Convert to Primary DNS** (this will not affect how your traffic is proxied).
 3.  Import your records into Cloudflare DNS and verify that they have been configured correctly. Usually, you will want to import unproxied (gray-clouded) records.
 
 ## Step 4 — Activate full setup
 
 Using values from the Cloudflare dashboard, go to your registrar and [update your nameservers](/dns/zone-setups/full-setup/setup/).
 
-In the Cloudflare dashboard, we recommend that you also [enable DNSSEC](/dns/additional-options/dnssec/) and add the DS record to your registrar.
+In the Cloudflare dashboard, we recommend that you also [enable DNSSEC](/dns/dnssec/) and add the DS record to your registrar.
 
 Once all the DNS TTLs expire, all your DNS queries will be answered by Cloudflare's global edge network.
 

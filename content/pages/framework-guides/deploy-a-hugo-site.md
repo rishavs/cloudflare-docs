@@ -11,11 +11,11 @@ In this guide, you will create a new Hugo application and deploy it using Cloudf
 
 {{<render file="_tutorials-before-you-start.md">}}
 
-Go to the [Deploying with Cloudflare Pages](/pages/framework-guides/deploy-a-hugo-site/#deploying-with-cloudflare-pages) if you already have a Hugo site hosted with your [Git provider](/pages/get-started/#connect-to-your-git-provider).
+Go to [Deploying with Cloudflare Pages](#deploy-with-cloudflare-pages) if you already have a Hugo site hosted with your [Git provider](/pages/get-started/guide/#connect-your-git-provider-to-pages).
 
-## Installing Hugo
+## Install Hugo
 
-First, install the Hugo CLI, using the specific instructions for your operating system below:
+Install the Hugo CLI, using the specific instructions for your operating system below:
 
 ### Linux
 
@@ -57,9 +57,9 @@ The Hugo GitHub repository contains pre-built versions of the Hugo command-line 
 
 For more instruction on installing these releases, refer to [Hugo's documentation](https://gohugo.io/getting-started/installing/).
 
-## Creating a new project
+## Create a new project
 
-With Hugo installed, create a new project by running the `hugo new` command in your terminal:
+With Hugo installed, refer to [Hugo's Quick Start](https://gohugo.io/getting-started/quick-start/) to create your project or create a new project by running the `hugo new` command in your terminal:
 
 ```sh
 $ hugo new site my-hugo-site
@@ -151,7 +151,7 @@ paginate = 5
         url = "/showcase"
 ```
 
-## Creating a post
+## Create a post
 
 Create a new post to give your Hugo site some initial content. Run the `hugo new` command in your terminal to generate a new post:
 
@@ -161,35 +161,23 @@ $ hugo new posts/hello-world.md
 
 Inside of `hello-world.md`, add some initial content to create your post. Remove the `draft` line in your post's frontmatter when you are ready to publish the post. Any posts with `draft: true` set will be skipped by Hugo's build process.
 
-## Creating a GitHub repository
+{{<render file="_create-github-repository_no_init.md">}}
 
-Create a new GitHub repository by visiting [repo.new](https://repo.new). After your repository is set up, push your application to GitHub by running the following commands in your terminal:
+## Deploy with Cloudflare Pages
 
-```sh
-$ git remote add origin https://github.com/yourgithubusername/githubrepo
-$ git branch -M main
-$ git push -u origin main
-```
+To deploy your site to Pages:
 
-## Deploying with Cloudflare Pages
+1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/) and select your account.
+2. In Account Home, select **Workers & Pages** > **Create application** > **Pages** > **Connect to Git**.
+3. Select the new GitHub repository that you created and, in the **Set up builds and deployments** section, provide the following information:
 
-Deploy your site to Pages by logging in to the [Cloudflare dashboard](https://dash.cloudflare.com/) > **Account Home** > **Pages** and selecting **Create a project**. Select the new GitHub repository that you created and, in the **Set up builds and deployments** section, provide the following information:
-
-<div>
-
-| Configuration option | Value    |
-| -------------------- | -------- |
-| Production branch    | `main`   |
-| Build command        | `hugo`   |
-| Build directory      | `public` |
-
-</div>
+{{<pages-build-preset framework="hugo">}}
 
 {{<Aside type="note" header="Base URL configuration">}}
 
-Hugo allows you to configure the `baseURL` of your application. This allows you to utilize the `absURL` helper to construct full canonical URLs. In order to do this with Pages, you must provde the `-b` or `--baseURL` flags with the `CF_PAGES_URL` environment variable to your `hugo` build command.
+Hugo allows you to configure the `baseURL` of your application. This allows you to utilize the `absURL` helper to construct full canonical URLs. In order to do this with Pages, you must provide the `-b` or `--baseURL` flags with the `CF_PAGES_URL` environment variable to your `hugo` build command.
 
-Your final build command may look like this: 
+Your final build command may look like this:
 
 ```sh
 $ hugo -b $CF_PAGES_URL
@@ -208,12 +196,16 @@ For the complete guide to deploying your first site to Cloudflare Pages, refer t
 After deploying your site, you will receive a unique subdomain for your project on `*.pages.dev`.
 Every time you commit new code to your Hugo site, Cloudflare Pages will automatically rebuild your project and deploy it. You will also get access to [preview deployments](/pages/platform/preview-deployments/) on new pull requests, so you can preview how changes look to your site before deploying them to production.
 
-## Using a specific Hugo version
+## Use a specific Hugo version
 
-You can set the `HUGO_VERSION` environment variable in your Pages project > **Settings**  > **Environment variables**, to use a [specific version of Hugo](https://github.com/gohugoio/hugo/releases).
+To use a [specific version of Hugo](https://github.com/gohugoio/hugo/releases), create the `HUGO_VERSION` environment variable in your Pages project > **Settings** > **Environment variables**. Set the value as the Hugo version you want to specify.
 
-For example, `HUGO_VERSION`: `0.101.0`
+For example, `HUGO_VERSION`: `0.110.0`.
 
-## Learn more
+{{<Aside type="note">}}
 
-By completing this guide, you have successfully deployed your Hugo site to Cloudflare Pages. To get started with other frameworks, [refer to the list of Framework guides](/pages/framework-guides/).
+If you plan to use [preview deployments](/pages/platform/preview-deployments/), make sure you also add environment variables to your **Preview** environment.
+
+{{</Aside>}}
+
+{{<render file="_learn-more.md" withParameters="Hugo">}}

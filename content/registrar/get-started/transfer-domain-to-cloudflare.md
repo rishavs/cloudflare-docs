@@ -14,6 +14,10 @@ This section contains generic instructions on how to transfer your domain to Clo
 
 ---
 
+{{<render file="_requirements.md">}}
+
+---
+
 {{<render file="_before-you-begin.md">}}
 
 ---
@@ -31,6 +35,7 @@ To begin, complete the following steps in your current registrar to transfer you
 - [Namecheap](https://www.namecheap.com/support/knowledgebase/article.aspx/258/84/what-should-i-do-to-transfer-a-domain-from-namecheap/)
 - [Network Solutions](https://customerservice.networksolutions.com/prweb/PRAuth/webkm/help/article/KC-474/networksolutions)
 - [Ionos by 1&1](https://www.ionos.com/help/domains/domain-transfers/#acc4514)
+- [Google](https://support.google.com/domains/answer/3251178?hl=en)
 
 ### 1. Log in to your registrar account
 
@@ -58,7 +63,7 @@ This code is often referred to as an authorization code, auth code, authinfo cod
 
 ### 5. Initiate your transfer to Cloudflare
 
-Go to the **Account Home** > [**Registrar**](https://dash.cloudflare.com/?to=/:account/domains/transfer). Cloudflare will display the zones available for transfer.
+From your Cloudflare Account Home, go to [**Transfer Domains**](https://dash.cloudflare.com/?to=/:account/domains/transfer). Cloudflare Registrar will display the zones available for transfer.
 
 You will be presented with the price for each transfer. When you transfer a domain, you are required by ICANN to pay to extend its registration by one year from the expiration date. You can remove domains from your transfer by selecting **x**.
 

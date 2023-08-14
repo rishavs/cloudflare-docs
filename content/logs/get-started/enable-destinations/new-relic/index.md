@@ -15,19 +15,11 @@ Cloudflare Logpush supports pushing logs directly to New Relic via the Cloudflar
 
 To enable a Logpush service to New Relic via the dashboard:
 
-1.  Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/login), and select the Enterprise domain you want to use with Logpush.
+{{<render file="_enable-logpush-job.md">}}
 
-2.  Go to **Analytics** > **Logs**.
+7. In **Select a destination**, choose **New Relic**.
 
-3.  Click **Connect a service** and a modal window will open.
-
-4.  Select the dataset you want to push to a storage service.
-
-5.  Select the data fields to include in your logs. You can add or remove fields later by modifying your settings in **Logs** > **Logpush**.
-
-6.  Select **New Relic**.
-
-7.  Enter the **New Relic Logs Endpoint**:
+8. Enter the **New Relic Logs Endpoint**:
 
     US: `"https://log-api.newrelic.com/log/v1?Api-Key=<NR_LICENSE_KEY>&format=cloudflare"`
 
@@ -35,9 +27,9 @@ To enable a Logpush service to New Relic via the dashboard:
 
     Use the region that matches the one that has been set on your New Relic account. The `<NR_LICENSE_KEY>` field can be found on the New Relic dashboard. It can be retrieved by following [these steps](https://docs.newrelic.com/docs/apis/intro-apis/new-relic-api-keys/#manage-license-key).
 
-8.  Click **Validate access**.
+9. Select **Validate access**.
 
-9.  Click **Save and Start Pushing** to finish enabling Logpush.
+10. Select **Save and Start Pushing** to finish enabling Logpush.
 
 Once connected, Cloudflare lists New Relic as a connected service under **Logs** > **Logpush**. Edit or remove connected services from here.
 
@@ -91,7 +83,7 @@ curl -s https://api.cloudflare.com/client/v4/zones/<ZONE_ID>/logpush/jobs -X POS
 
 Response:
 
-```bash
+```json
 {
    "errors" : [],
    "messages" : [],
@@ -129,7 +121,7 @@ https://api.cloudflare.com/client/v4/zones/<ZONE_ID>/logpush/jobs/100 -d'{"enabl
 
 Response:
 
-```bash
+```json
 {
    "errors" : [],
    "messages" : [],
@@ -153,5 +145,5 @@ Response:
 ```
 
  {{<Aside type="note" header="Note">}}
-To analyze and visualize Cloudflare metrics using the Cloudflare Network Logs quickstart, follow the steps in the [New Relic Analytics integration page](/fundamentals/data-products/analytics-integrations/new-relic/).   
+To analyze and visualize Cloudflare metrics using the Cloudflare Network Logs quickstart, follow the steps in the [New Relic Analytics integration page](/fundamentals/data-products/analytics-integrations/new-relic/).
 {{</Aside>}}

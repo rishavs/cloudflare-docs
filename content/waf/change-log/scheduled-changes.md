@@ -4,6 +4,7 @@ pcx_content_type: changelog
 title: Scheduled changes
 weight: 2
 layout: list
+rss: file
 ---
 
 # Scheduled changes
@@ -23,41 +24,23 @@ layout: list
   </thead>
   <tbody>
     <tr>
-      <td>2022-09-05</td>
-      <td>2022-09-12</td>
+      <td>2023-08-14</td>
+      <td>2023-08-21</td>
       <td>Block</td>
-      <td>100135A_BETA</td>
-      <td>...92c2ad9f</td>
-      <td>XSS - JavaScript Events</td>
-      <td>This detection will replace ...cfd0fac1 on new WAF</td>
-    </tr>
-    <tr>
-      <td>2022-09-05</td>
-      <td>2022-09-12</td>
-      <td>Block</td>
-      <td>100542_BETA</td>
-      <td>...df7d4d7b</td>
-      <td>Broken Authentication - VMware - BETA - CVE:CVE-2022-31656, CVE:CVE-2022-22972</td>
-      <td>This detection will replace ...e09c1a1e on new WAF</td>
-    </tr>
-    <tr>
-      <td>2022-09-05</td>
-      <td>2022-09-12</td>
-      <td>Block</td>
-      <td>100547</td>
-      <td>...36fe4cbb</td>
-      <td>Sophos Firewall Auth Bypass Vulnerability - CVE:CVE-2022-1040</td>
+      <td>100595</td>
+      <td>...84dadf5a</td>
+      <td>MobileIron - Auth Bypass - CVE:CVE-2023-35082</td>
       <td>N/A</td>
     </tr>
     <tr>
-      <td>2022-09-05</td>
-      <td>2022-09-12</td>
-      <td>Block</td>
-      <td>100504</td>
-      <td>...4529da66</td>
-      <td>Atlassian - CVE:CVE-2021-26086</td>
+      <td>2023-08-14</td>
+      <td>2023-08-21</td>
+      <td>Disable</td>
+      <td>N/A</td>
+      <td>...48a60154</td>
+      <td>SQLi - Keyword + SubExpress + Comment + BETA</td>
       <td>N/A</td>
     </tr>
-</tbody>
+  </tbody>
 </table>
 {{</table-wrap>}}

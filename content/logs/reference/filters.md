@@ -212,13 +212,7 @@ The following table represents the comparison operators that are supported and e
 
 The filter field has limits of approximately 30 operators and 1000 bytes. Anything exceeding this value will return an error.
 
-{{<Aside type="note" header="Note">}}
-Filtering is not supported on the following data types: `objects`, `array[int]`, `array[object]`.
-
-For the Firewall events dataset, the following fields are not supported: Action, Kind, MatchIndex, Metadata, OriginatorRayID, RuleID and Source.
-
-For the Gateway HTTP dataset, the following fields are not supported: Downloaded File Names, Uploaded File Names.
-{{</Aside>}}
+{{<render file="_filtering-limitations.md">}}
 
 ## Logical Operators
 
@@ -236,7 +230,13 @@ Here are some examples of how the logical operators can be implemented. `X`, `Y`
 
 - (X AND Y) OR Z - `{"where":{"or":[{"and": [{X},{Y}]},{Z}]}}`
 
-Example request using cURL:
+## Set filters via API or dashboard
+
+Filters can be set via API or the Cloudflare dashboard. Note that using a filter is optional, but if used, it must contain the `where` key.
+
+### API
+
+Here is an example request using cURL via API:
 
 ```bash
 curl -s -X POST https://api.cloudflare.com/client/v4/zones/<ZONE_ID>/logpush/jobs \
@@ -251,3 +251,16 @@ curl -s -X POST https://api.cloudflare.com/client/v4/zones/<ZONE_ID>/logpush/job
 "destination_conf": "s3://<BUCKET_PATH>?region=us-west-2/"
 }' | jq .
 ```
+
+### Dashboard
+
+To set filters through the dashboard:
+
+1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/login) and select the domain you want to use.
+2. Go to **Analytics & Logs** > **Logs**.
+3. Select **Add Logpush job**. A modal window will open.
+4. Select the dataset you want to push to a storage service.
+5. Below **Select data fields**, in the **Filter** section, you can set up your filters.
+6. You need to select  a [Field](/logs/reference/log-fields/), an [Operator](/logs/reference/filters/#logical-operators), and a **Value**.
+7. You can connect more filters using `AND` and `OR` logical operators.
+8. Select **Next** to continue the setting up of your Logpush job.

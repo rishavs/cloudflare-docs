@@ -29,12 +29,7 @@ addEventListener("fetch", event => {
   const request = event.request
   const url = "https://example.com"
 
-  const modifiedRequest = new Request(url, {
-    body: request.body,
-    headers: request.headers,
-    method: request.method,
-    redirect: request.redirect
-  })
+  const modifiedRequest = new Request(url, request)
 
   // ...
 })
@@ -47,6 +42,8 @@ The global `fetch` method itself invokes the `Request` constructor. The [`Reques
 Review the [`FetchEvent` documentation](/workers/runtime-apis/fetch-event/) for a deeper understanding of these fundamental Workers concepts.
 
 {{</Aside>}}
+
+---
 
 ## Constructor
 
@@ -74,7 +71,7 @@ let request = new Request(input [, init])
 
 *   `cf` {{<type-link href="#requestinitcfproperties">}}RequestInitCfProperties{{</type-link>}} {{<prop-meta>}}optional{{</prop-meta>}}
 
-    *   Cloudflare-specific properties that can be set on the `Request` that control how Cloudflare’s edge handles the request.
+    *   Cloudflare-specific properties that can be set on the `Request` that control how Cloudflare’s global network handles the request.
 
 *   `method` {{<type>}}string{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
 
@@ -113,7 +110,7 @@ Invalid or incorrectly-named keys in the `cf` object will be silently ignored. C
 
 *   `cacheEverything` {{<type>}}boolean{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
 
-    *   This option forces Cloudflare to cache the response for this request, regardless of what headers are seen on the response. This is equivalent to setting the Page Rule [**Cache Level** (to **Cache Everything**)](https://support.cloudflare.com/hc/en-us/articles/200172266). Defaults to `false`.
+    *    Treats all content as static and caches all [file types](/cache/concepts/default-cache-behavior#default-cached-file-extensions) beyond the Cloudflare default cached content. Respects cache headers from the origin web server. This is equivalent to setting the Page Rule [**Cache Level** (to **Cache Everything**)](https://support.cloudflare.com/hc/articles/200172266). Defaults to `false`.
         This option applies to `GET` and `HEAD` request methods only.
 
 *   `cacheKey` {{<type>}}string{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
@@ -122,7 +119,7 @@ Invalid or incorrectly-named keys in the `cf` object will be silently ignored. C
 
 *   `cacheTags` {{<type>}}Array\<string\>{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
 
-    *   This option appends additional [**Cache-Tag**](/cache/how-to/purge-cache/#cache-tags-enterprise-only) headers to the response from the origin server. This allows for purges of cached content based on tags provided by the Worker, without modifications to the origin server. This is performed using the [**Purge by Tag**](/cache/how-to/purge-cache/#purge-using-cache-tags) feature, which is currently only available to Enterprise zones. If this option is used in a non-Enterprise zone, the additional headers will not be appended.
+    *   This option appends additional [**Cache-Tag**](/cache/how-to/purge-cache/purge-by-tags/) headers to the response from the origin server. This allows for purges of cached content based on tags provided by the Worker, without modifications to the origin server. This is performed using the [**Purge by Tag**](/cache/how-to/purge-cache/purge-by-tags/#purge-using-cache-tags) feature, which is currently only available to Enterprise zones. If this option is used in a non-Enterprise zone, the additional headers will not be appended.
 
 *   `cacheTtl` {{<type>}}number{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
 
@@ -130,7 +127,7 @@ Invalid or incorrectly-named keys in the `cf` object will be silently ignored. C
 
 *   `cacheTtlByStatus` {{<type>}}{ \[key: string]: number }{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
 
-    *   This option is a version of the `cacheTtl` feature which chooses a TTL based on the response’s status code. If the response to this request has a status code that matches, Cloudflare will cache for the instructed time and override cache instructives sent by the origin. For example: `{ "200-299": 86400, 404: 1, "500-599": 0 }`. The value can be any integer, including zero and negative integers. A value of `0` indicates that the cache asset expires immediately. Any negative value instructs Cloudflare not to cache at all. This option applies to `GET` and `HEAD` request methods only.
+    *   This option is a version of the `cacheTtl` feature which chooses a TTL based on the response’s status code. If the response to this request has a status code that matches, Cloudflare will cache for the instructed time and override cache instructives sent by the origin. For example: `{ "200-299": 86400, "404": 1, "500-599": 0 }`. The value can be any integer, including zero and negative integers. A value of `0` indicates that the cache asset expires immediately. Any negative value instructs Cloudflare not to cache at all. This option applies to `GET` and `HEAD` request methods only.
 
 *   `image` {{<type>}}Object | null{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
 
@@ -158,11 +155,11 @@ Invalid or incorrectly-named keys in the `cf` object will be silently ignored. C
 
 *   `webp` {{<type>}}boolean{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
 
-    *   Enables or disables [WebP](https://blog.cloudflare.com/a-very-webp-new-year-from-cloudflare/) image format in [Polish](https://blog.cloudflare.com/introducing-polish-automatic-image-optimizati/). 
+    *   Enables or disables [WebP](https://blog.cloudflare.com/a-very-webp-new-year-from-cloudflare/) image format in [Polish](/images/polish/).
 
 {{</definitions>}}
 
-***
+---
 
 ## Properties
 
@@ -180,7 +177,7 @@ All properties of an incoming `Request` object (that is, `event.request`) are re
 
 *   `cf` {{<type-link href="#incomingrequestcfproperties">}}IncomingRequestCfProperties{{</type-link>}} {{<prop-meta>}}read-only{{</prop-meta>}}
 
-    *   An object containing properties about the incoming request provided by Cloudflare’s edge network.
+    *   An object containing properties about the incoming request provided by Cloudflare’s global network.
 
 *   `headers` {{<type>}}Headers{{</type>}} {{<prop-meta>}}read-only{{</prop-meta>}}
 
@@ -210,7 +207,7 @@ If the response is a redirect and the redirect mode is set to `follow` (see belo
 
 ### `IncomingRequestCfProperties`
 
-In addition to the properties on the standard [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) object, the `request.cf` object on an inbound `Request` contains information about the request provided by Cloudflare’s edge.
+In addition to the properties on the standard [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) object, the `request.cf` object on an inbound `Request` contains information about the request provided by Cloudflare’s global network.
 
 All plans have access to:
 
@@ -226,12 +223,12 @@ All plans have access to:
 
 *   `botManagement` {{<type>}}Object | null{{</type>}}
 
-    *   Only set when using Cloudflare Bot Management. Object with the following properties: `score`, `verifiedBot`, `staticResource`, and `ja3Hash`. Refer to [Bot Management Variables](/bots/reference/bot-management-variables) for more details.
+    *   Only set when using Cloudflare Bot Management. Object with the following properties: `score`, `verifiedBot`, `staticResource`, `ja3Hash`, and `detectionIds`. Refer to [Bot Management Variables](/bots/reference/bot-management-variables/) for more details.
 
 *   `clientAcceptEncoding` {{<type>}}string | null{{</type>}}
 
     *   If Cloudflare replaces the value of the `Accept-Encoding` header, the original value is stored in the `clientAcceptEncoding` property, for example, `"gzip, deflate, br"`.
-  
+
 *   `colo` {{<type>}}string{{</type>}}
 
     *   The three-letter [`IATA`](https://en.wikipedia.org/wiki/IATA_airport_code) airport code of the data center that the request hit, for example, `"DFW"`.
@@ -308,7 +305,7 @@ The `request.cf` object is not available in the Cloudflare Workers dashboard or 
 
 {{</Aside>}}
 
-***
+---
 
 ## Methods
 
@@ -318,35 +315,35 @@ These methods are only available on an instance of a `Request` object or through
 
 {{<definitions>}}
 
-*   `clone()` {{<type>}}Promise\<Request>{{</type>}}
+*   `clone()` : {{<type>}}Promise\<Request>{{</type>}}
 
     *   Creates a copy of the `Request` object.
 
-*   `arrayBuffer()` {{<type>}}Promise\<ArrayBuffer>{{</type>}}
+*   `arrayBuffer()` : {{<type>}}Promise\<ArrayBuffer>{{</type>}}
 
     *   Returns a promise that resolves with an [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) representation of the request body.
 
-*   `formData()` {{<type>}}Promise\<FormData>{{</type>}}
+*   `formData()` : {{<type>}}Promise\<FormData>{{</type>}}
 
     *   Returns a promise that resolves with a [`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData) representation of the request body.
 
-*   `json()` {{<type>}}Promise\<Object>{{</type>}}
+*   `json()` : {{<type>}}Promise\<Object>{{</type>}}
 
     *   Returns a promise that resolves with a JSON representation of the request body.
 
-*   `text()` {{<type>}}Promise\<string>{{</type>}}
+*   `text()` : {{<type>}}Promise\<string>{{</type>}}
 
     *   Returns a promise that resolves with a string (text) representation of the request body.
 
 {{</definitions>}}
 
-***
+---
 
-## The request context
+## The `Request` context
 
-The `Request` context is the context of the `"fetch"` event callback. It is important to note that due to how Workers are executed, asynchronous tasks (for example, `fetch`) can only be run inside the request context.
+The `Request` context is the context of the `"fetch"` event callback. It is important to note that due to how Workers are executed, asynchronous tasks (for example, `fetch`) can only be run inside the `Request` context.
 
-The request context is available inside of the [`FetchEvent` handler](/workers/runtime-apis/fetch-event/):
+The `Request` context is available inside of the [`FetchEvent` handler](/workers/runtime-apis/fetch-event/):
 
 ```js
 addEventListener("fetch", event => {
@@ -357,7 +354,7 @@ addEventListener("fetch", event => {
 
 ### When passing a promise to fetch event `.respondWith()`
 
-If you pass a Response promise to the fetch event [`.respondWith()`](/workers/runtime-apis/fetch-event/#methods) method, the request context is active during any asynchronous tasks which run before the Response promise has settled. You can pass the event to an async handler, for example:
+If you pass a Response promise to the fetch event [`.respondWith()`](/workers/runtime-apis/fetch-event/#respondwith) method, the request context is active during any asynchronous tasks which run before the Response promise has settled. You can pass the event to an async handler, for example:
 
 ```js
 addEventListener("fetch", event => {
@@ -384,6 +381,27 @@ async function eventHandler(event){..}
 This code snippet will throw during script startup, and the `"fetch"` event listener will never be registered.
 
 ***
+
+### Set the `Content-Length` header
+
+The `Content-Length` header will be automatically set by the runtime based on whatever the data source for the `Request` is. Any value manually set by user code in the `Headers` will be ignored. To have a `Content-Length` header with a specific value specified, the `body` of the `Request` must be either a `FixedLengthStream` or a fixed-length value just as a string or `TypedArray`.
+
+A `FixedLengthStream` is an identity `TransformStream` that permits only a fixed number of bytes to be written to it.
+
+```js
+  const { writable, readable } = new FixedLengthStream(11);
+
+  const enc = new TextEncoder();
+  const writer = writable.getWriter();
+  writer.write(enc.encode("hello world"));
+  writer.end();
+
+  const req = new Request('https://example.org', { method: 'POST', body: readable });
+```
+
+Using any other type of `ReadableStream` as the body of a request will result in Chunked-Encoding being used.
+
+---
 
 ## Related resources
 

@@ -1,6 +1,7 @@
 ---
 title: Download videos
 weight: 6
+pcx_content_type: how-to
 ---
 
 # Download videos
@@ -28,7 +29,7 @@ curl -X POST \
 https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/stream/<VIDEO_UID>/downloads
 ```
 
-```bash
+```json
 ---
 header: Response
 ---
@@ -59,7 +60,7 @@ curl -X GET \
 https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/stream/<VIDEO_UID>/downloads
 ```
 
-```bash
+```json
 ---
 header: Response
 ---
@@ -91,8 +92,8 @@ https://customer-<CODE>.cloudflarestream.com/<VIDEO_UID>/downloads/default.mp4?f
 
 The generated MP4 download files can be retrieved via the link in the download API response.
 
-```bash
-curl -L https://customer-<CODE>.cloudflarestream.com/<VIDEO_UID>/downloads/default.mp4 > download.mp4
+```sh
+$ curl -L https://customer-<CODE>.cloudflarestream.com/<VIDEO_UID>/downloads/default.mp4 > download.mp4
 ```
 
 ## Secure video downloads

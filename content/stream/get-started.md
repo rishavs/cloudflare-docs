@@ -8,7 +8,7 @@ weight: 2
 
 {{<Aside type="note" header="Before you get started:">}}
 
-You must first [create a Cloudflare account](/fundamentals/account-and-billing/account-setup/create-account/) and [create an API token](/api/tokens/create/) to begin using Stream.
+You must first [create a Cloudflare account](/fundamentals/account-and-billing/account-setup/create-account/) and [create an API token](/fundamentals/api/get-started/create-token/) to begin using Stream.
 
 {{</Aside>}}
 
@@ -96,14 +96,13 @@ To play video on your website with the [Stream Player](/stream/viewing-videos/us
 The embed code above can also be found in the [Cloudflare dashboard](https://dash.cloudflare.com/?to=/:account/stream).
 
 <figure data-type="stream">
-  <div className="AspectRatio" style={{"--aspect-ratio": "calc(16 / 9)"}}>
+  <div class="AspectRatio" style="--aspect-ratio: calc(16 / 9)">
     <iframe
-      className="AspectRatio--content"
+      class="AspectRatio--content"
       src="https://iframe.videodelivery.net/5d5bc37ffcf54c9b82e996823bffbb81?muted=true"
       title="Example Stream video"
-      frameBorder="0"
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen></iframe>
+      frame-border="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"></iframe>
   </div>
 </figure>
 
@@ -180,3 +179,7 @@ The embed code above can also be found in the [Cloudflare dashboard](https://das
 
 - [Secure your stream](/stream/viewing-videos/securing-your-stream/)
 - [View live viewer counts](/stream/getting-analytics/live-viewer-count/)
+
+## Accessibility considerations
+
+To make your video content more accessible, include [captions](/stream/edit-videos/adding-captions/) and [high-quality audio recording](https://www.w3.org/WAI/media/av/av-content/).

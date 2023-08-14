@@ -9,23 +9,24 @@ weight: 3
 To create a client certificate in the Cloudflare dashboard:
 
 1.  Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select your account and application.
-2.  Navigate to **SSL** > **Client Certificates**.
-3.  Click **Create Certificate**.
+2.  Go to **SSL** > **Client Certificates**.
+3.  Select **Create Certificate**.
 
-{{<Aside type="warning" header="Important">}}
-You can only use API Shield with a certificate authority (CA) that is fully managed by Cloudflare. Cloudflare generates a unique CA for each account.
+    {{<render file="_cloudflare-managed-client-cert.md">}}
 
-If you need to use certificates issued by another CA, use [Cloudflare Access](/cloudflare-one/identity/devices/access-integrations/mutual-tls-authentication/) to upload your own CA.
-{{</Aside>}}
+4.  For **Private key type**, select a value.
 
-1.  For **Private key type**, select a value.
+5.  For **Certificate Validity**, select a value. The default value is 10 years.
 
-2.  For **Certificate Validity**, select a value. The default value is 10 years.
+6.  Select **Create**.
 
-3.  Click **Create**.
+7.  To copy the certificate or private key to your clipboard, use the **click to copy** link.
 
-4.  To copy the certificate or private key to your clipboard, use the **click to copy** link.
+8.  To close the dialog, select **OK**.
 
-5.  To close the dialog, click **OK**.
+## Next steps
 
-You can now embed the client certificate in your mobile app or IoT device. For an example, refer to [Configure your mobile app or Internet-of-things device](/ssl/client-certificates/configure-your-mobile-app-or-iot-device/).
+You can now use the client certificate for multiple things, including:
+
+- Adding an mTLS certificate binding to your [Worker](/workers/runtime-apis/mtls/).
+- Embedding a certificate in your [mobile app or IoT device](/ssl/client-certificates/configure-your-mobile-app-or-iot-device/).

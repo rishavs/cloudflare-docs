@@ -1,9 +1,8 @@
 ---
 title: Troubleshooting
-pcx_content_type: reference
+pcx_content_type: navigation
 weight: 7
-meta:
-  title: Troubleshooting zone setups
+no_index: true
 ---
 
 # Troubleshooting zone setups

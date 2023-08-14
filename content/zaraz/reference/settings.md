@@ -7,7 +7,11 @@ meta:
 
 # Zaraz settings
 
-To configure Zaraz's general settings, select [**Zaraz**](https://dash.cloudflare.com/?to=/:account/:zone/zaraz) > **Settings**.
+To configure Zaraz's general settings, select [**Zaraz**](https://dash.cloudflare.com/?to=/:account/:zone/zaraz) > **Settings**. Make sure you save your changes, by selecting the **Save** button after making them.
+
+## Workflow
+
+Allows you to choose between working in Real-time or Preview & Publish modes. By default, Zaraz instantly publishes all changes you make in your account. Choosing Preview & Publish lets you test your settings before committing to them. Refer to [Preview mode](/zaraz/history/preview-mode/) for more information.
 
 ## Web API
 
@@ -17,7 +21,7 @@ The debug key is used to enable Debug Mode. Refer to [Debug mode](/zaraz/web-api
 
 ### E-commerce tracking
 
-Toggle this option on to enable the Zaraz E-commerce API. Refer to [Ecommerce](/zaraz/web-api/ecommerce/) for more information.
+Toggle this option on to enable the Zaraz E-commerce API. Refer to [E-commerce](/zaraz/web-api/ecommerce/) for more information.
 
 ## Compatibility
 
@@ -33,13 +37,13 @@ When you toggle Single Page Application support off, the `pageview` trigger will
 
 Zaraz offers privacy settings you can turn on, such as:
 
-* **Remove URL query parameters**: Removes all query parameters from URLs. For example, `https://example.com/?q=hello` becomes `https://example.com/`.
+- **Remove URL query parameters**: Removes all query parameters from URLs. For example, `https://example.com/?q=hello` becomes `https://example.com/`.
 
-* **Trim IP addresses**: Trims part of the IP address before passing it to server-side loaded tools, to hide it from third-parties.
+- **Trim IP addresses**: Trims part of the IP address before passing it to server-side loaded tools, to hide it from third-parties.
 
-* **Clean User Agent strings**: Clear sensitive information from the User Agent string by removing information such as operating system version, extensions installed, among others.
+- **Clean User Agent strings**: Clear sensitive information from the User Agent string by removing information such as operating system version, extensions installed, among others.
 
-* **Remove external referrers**: Hides the page referrers URL if the hostname is different from the website's.
+- **Remove external referrers**: Hides the page referrers URL if the hostname is different from the website's.
 
 ## Injection
 
@@ -58,7 +62,7 @@ When toggled on, the Zaraz script will also be injected into `iframe` elements.
 Specify custom URLs for Zaraz's scripts. You need to use a valid pathname:
 
 ```txt
-/<PATHNAME>/<FILE.JS>>
+/<PATHNAME>/<FILE.JS>
 ```
 
 This is an example of a custom pathname to host Zaraz's initialization script:
@@ -66,3 +70,13 @@ This is an example of a custom pathname to host Zaraz's initialization script:
 ```txt
 /my-server/my-scripts/start.js
 ```
+
+### HTTP Events API
+
+Refer to [HTTP Events API](/zaraz/http-events-api/) for more information on this endpoint.
+
+## Other
+
+### Context Enricher
+
+Refer to the [Context Enricher](/zaraz/advanced/context-enricher/) for more information on this setting.

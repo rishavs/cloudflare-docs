@@ -1,7 +1,7 @@
 ---
 title: Get started
 pcx_content_type: get-started
-weight: 2
+weight: 3
 layout: single
 meta:
   title: Get started with SSL/TLS
@@ -11,15 +11,19 @@ meta:
 
 Follow the steps below to enable SSL/TLS protection for your application.
 
----
+{{<tutorial>}}
 
-## Prerequisites
+{{<tutorial-prereqs>}}
 
-- [Create an account and register an application](https://support.cloudflare.com/hc/articles/360059655691)
+- [Create an account and register an application](/fundamentals/get-started/setup/)
 
----
+{{</tutorial-prereqs>}}
 
-## Step 1 — Choose an edge certificate
+
+
+{{<tutorial-step title="Choose an edge certificate" >}}
+
+As explained in the [concepts page](/ssl/concepts/#ssltls-certificate), edge certificates are the SSL/TLS certificates that Cloudflare presents to your visitors.
 
 Cloudflare offers a variety of options for your application's edge certificates:
 
@@ -30,32 +34,34 @@ Cloudflare offers a variety of options for your application's edge certificates:
 
 {{<Aside type="note" header="Note:">}}
 
-{{<render file="../../cloudflare-for-saas/_partials/_ssl-for-saas-definition.md">}}
+{{<render file="_ssl-for-saas-definition.md" productFolder="cloudflare-for-platforms" >}}
 
-For more details, refer to [Cloudflare for SaaS (managed hostnames)](/cloudflare-for-saas/security/certificate-management/).
-
-{{</Aside>}}
-
-## Step 2 — Choose your encryption mode
-
-Once you have chosen your edge certificate, [choose an encryption mode](/ssl/origin-configuration/ssl-modes/) to specify how Cloudflare should encrypt connections between a) visitors and Cloudflare and b) Cloudflare and your origin server.
-
-{{<Aside type="warning" header="Warning:">}}
-
-Before choosing an encryption mode, make sure you have changed relevant settings on your application or origin server. Otherwise, visitors may encounter errors on your site.
+For more details, refer to [Cloudflare for SaaS (managed hostnames)](/cloudflare-for-platforms/cloudflare-for-saas/security/certificate-management/).
 
 {{</Aside>}}
 
-## Step 3 — Enforce HTTPS connections
+{{</tutorial-step>}}
 
-Even if your application has an active edge certificate, visitors can still access resources over unsecured HTTP connections.
+{{<tutorial-step title="Choose your encryption mode" >}}
 
-Using various Cloudflare settings, however, you can force all or most visitor connections to [use HTTPS](/ssl/edge-certificates/encrypt-visitor-traffic/).
+Once you have chosen your edge certificate, [choose an encryption mode](/ssl/origin-configuration/ssl-modes/).
 
-## Step 4 (optional) — Enable additional features
+Encryption modes specify how Cloudflare encrypts connections between (a) visitors and Cloudflare, and (b) Cloudflare and your origin server. For more context about this two-part process refer to the [concepts page](/ssl/concepts/#ssltls-certificate).
 
-After you have chosen your edge certificate and updated your encryption mode, review the following Cloudflare settings:
+Note that some encryption modes will require you to have a valid [origin certificate](/ssl/concepts/#origin-certificate), which is managed on your origin server. Each encryption mode setup page lists out this and other requirements and you can also [consider other Cloudflare options to use with your origin server](/ssl/origin-configuration/), such as [Origin CA certificates](/ssl/origin-configuration/origin-ca/).
 
-- [Edge certificates](/ssl/edge-certificates/additional-options/): Customize different aspects of your edge certificates, from enabling **Opportunistic Encryption** to specifying a **Minimum TLS Version**.
-- [Authenticated origin pull](/ssl/origin-configuration/authenticated-origin-pull/): Ensure all requests to your origin server originate from the Cloudflare network.
-- [Notifications](/fundamentals/notifications/notification-available/): Set up alerts related to certificate validation status, issuance, deployment, renewal, and expiration.
+{{</tutorial-step>}}
+
+{{<tutorial-step title="Enforce HTTPS connections" >}}
+
+{{<render file="_enforce-https-recommendation.md">}}
+
+{{</tutorial-step>}}
+
+{{<tutorial-step title="Enable additional features" optional=true >}}
+
+{{<render file="_get-started-additional-features.md">}}
+
+{{</tutorial-step>}}
+
+{{</tutorial>}}

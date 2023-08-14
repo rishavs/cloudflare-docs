@@ -2,6 +2,8 @@
 pcx_content_type: how-to
 title: Deploy a custom ruleset
 weight: 4
+meta:
+  description: Learn how to deploy a custom ruleset to your Cloudflare account.
 ---
 
 # Deploy a custom ruleset
@@ -14,25 +16,30 @@ Before you begin:
 
 To deploy a custom ruleset, add a rule that executes the custom ruleset. Define the rule scope in the rule expression.
 
+{{<Aside type="warning">}}
+Regarding the expression of the rule deploying the ruleset, you must use parentheses to enclose any custom conditions and end your expression with `and cf.zone.plan eq "ENT"` or else the API operation will fail.
+{{</Aside>}}
+
 ## Example
 
 The following `PUT` request adds a rule that executes a custom ruleset when the zone name matches `example.com`.
 
-```json
+```bash
 ---
 header: Request
 ---
-curl -X PUT \
-"https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/rulesets/phases/http_request_firewall_custom/entrypoint" \
--H "Authorization: Bearer <API_TOKEN>" \
--d '{
+curl --request PUT \
+https://api.cloudflare.com/client/v4/accounts/{account_id}/rulesets/phases/http_request_firewall_custom/entrypoint \
+--header "Authorization: Bearer <API_TOKEN>" \
+--header "Content-Type: application/json" \
+--data '{
   "rules": [
     {
-      "action":"execute",
-      "description":"Execute custom ruleset",
-      "expression": "cf.zone.name == \"example.com\"",
+      "action": "execute",
+      "description": "Execute custom ruleset",
+      "expression": "(cf.zone.name == \"example.com\") and cf.zone.plan eq \"ENT\"",
       "action_parameters": {
-        "id":"<CUSTOM_RULESET_ID>"
+        "id": "<CUSTOM_RULESET_ID>"
       }
     },
     {
@@ -68,7 +75,7 @@ header: Response
           "id": "<CUSTOM_RULESET_ID>",
           "version": "latest"
         },
-        "expression": "cf.zone.name == \"example.com\"",
+        "expression": "(cf.zone.name == \"example.com\") and cf.zone.plan eq \"ENT\"",
         "last_updated": "2021-03-18T18:35:14.135697Z",
         "ref": "<PHASE_RULE_REF>",
         "enabled": true
@@ -81,7 +88,7 @@ header: Response
           "id": "<EXECUTED_RULESET_ID_1>",
           "version": "latest"
         },
-        "expression": "cf.zone.name eq  \"example.com\"",
+        "expression": "(cf.zone.name eq \"example.com\") and cf.zone.plan eq \"ENT\"",
         "last_updated": "2021-03-16T15:51:49.180378Z",
         "ref": "<EXISTING_PHASE_RULE_REF_1>",
         "enabled": true
@@ -94,7 +101,7 @@ header: Response
           "id": "<EXECUTED_RULESET_ID_2>",
           "version": "latest"
         },
-        "expression": "cf.zone.name eq  \"example.com\"",
+        "expression": "(cf.zone.name eq \"example.com\") and cf.zone.plan eq \"ENT\"",
         "last_updated": "2021-03-16T15:50:29.861157Z",
         "ref": "<EXISTING_PHASE_RULE_REF_2>",
         "enabled": true

@@ -1,5 +1,5 @@
 ---
-pcx_content_type: how to
+pcx_content_type: how-to
 title: Add captions
 weight: 5
 ---
@@ -45,7 +45,7 @@ https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/stream/<VIDEO_UID>/ca
 
 ### Example Response to Add or Modify a Caption
 
-```bash
+```json
 {
   "result": {
     "language": "en",
@@ -68,7 +68,7 @@ https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/stream/<VIDEO_UID>/ca
 
 ### Example response to get the captions associated with a video
 
-```bash
+```json
 {
   "result": [
     {
@@ -107,7 +107,7 @@ deleted.
 
 ### Example response to delete the caption
 
-```bash
+```json
 {
   "result": "",
   "success": true,
@@ -127,7 +127,7 @@ deleted.
 - Videos may include several language captions, but each language must be unique.
   For example, a video may have English, French, and German captions associated
   with it, but it cannot have two French captions.
-- Each caption file is limited to 10 MB in size. Please [contact support](https://support.cloudflare.com/hc/articles/200172476)
+- Each caption file is limited to 10 MB in size. Please [contact support](/support/troubleshooting/general-troubleshooting/contacting-cloudflare-support/)
   if you need to upload a larger file.
 
 ## Most common language codes

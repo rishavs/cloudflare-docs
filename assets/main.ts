@@ -5,10 +5,12 @@ import * as navs from "./navlinks";
 
 declare global {
   interface Window {
-    // algolia; @see search.ts
+    docsearch: any;
     Coveo?: any;
   }
 }
+
+const currentLocation = window.location.href;
 
 (function () {
   navs.init();
@@ -17,8 +19,6 @@ declare global {
   events.focus();
   events.mobile();
   events.dropdowns();
-  events.clipboardButton();
-  events.copy();
   contents.toc();
   events.toggleSidebar();
   events.activeTab();

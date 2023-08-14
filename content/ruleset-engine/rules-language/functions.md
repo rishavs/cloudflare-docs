@@ -25,13 +25,13 @@ In the expression below, the`lower()` function transforms `http.host` values to 
 lower(http.host) == "www.cloudflare.com"
 ```
 
-Transformation functions that do not take arrays as an argument type require the `[*]` special index notation. Refer to [Arrays](/ruleset-engine/rules-language/values/#arrays) for more information.
+Transformation functions that do not take arrays as an argument type require the `[*]` index notation. Refer to [Arrays](/ruleset-engine/rules-language/values/#arrays) for more information.
 
 The Rules language supports these transformation functions:
 
 {{<definitions>}}
 
-- <code id="function-any">any({{<type>}}Array{{</type>}}\<{{<param-type>}}Boolean{{</param-type>}}\>)</code> {{<type>}}Boolean{{</type>}}
+- <code id="function-any">{{<name>}}any{{</name>}}({{<type>}}Array{{</type>}}\<{{<param-type>}}Boolean{{</param-type>}}\>)</code> {{<type>}}Boolean{{</type>}}
 
   - Returns <code>true</code> when the comparison operator in the argument returns `true` for <em>any</em> of the values in the argument array. Returns <code>false</code> otherwise.
 
@@ -42,7 +42,7 @@ The Rules language supports these transformation functions:
       any(url_decode(http.request.body.form.values[*])[*] contains "an xss attack")
     </code>
 
-- <code id="function-all">all({{<type>}}Array{{</type>}}\<{{<param-type>}}Boolean{{</param-type>}}\>)</code> {{<type>}}Boolean{{</type>}}
+- <code id="function-all">{{<name>}}all{{</name>}}({{<type>}}Array{{</type>}}\<{{<param-type>}}Boolean{{</param-type>}}\>)</code> {{<type>}}Boolean{{</type>}}
 
   - Returns <code>true</code> when the comparison operator in the argument returns `true` for <em>all</em> values in the argument array. Returns <code>false</code> otherwise.
 
@@ -51,7 +51,7 @@ The Rules language supports these transformation functions:
 
     `all(http.request.headers["content-type"][*] == "application/json")`
 
-- <code id="function-concat">concat({{<type>}}String | Integer | bytes | Array elements{{</type>}})</code> {{<type>}}String{{</type>}}
+- <code id="function-concat">{{<name>}}concat{{</name>}}({{<type>}}String | Integer | bytes | Array elements{{</type>}})</code> {{<type>}}String{{</type>}}
 
   - Takes a comma-separated list of values. Concatenates the argument values into a single String.
 
@@ -60,7 +60,7 @@ The Rules language supports these transformation functions:
 
     `concat("String1"," ","String",2) == "String1 String2"`
 
-- <code id="function-ends_with">ends\_with(source{{<param-type>}}String{{</param-type>}}, substring{{<param-type>}}String{{</param-type>}})</code> {{<type>}}Boolean{{</type>}}
+- <code id="function-ends_with">{{<name>}}ends_with{{</name>}}(source{{<param-type>}}String{{</param-type>}}, substring{{<param-type>}}String{{</param-type>}})</code> {{<type>}}Boolean{{</type>}}
 
   - Returns `true` when the source ends with a given substring. Returns `false` otherwise. The source cannot be a literal value (for example, `"foo"`).
 
@@ -71,7 +71,7 @@ The Rules language supports these transformation functions:
 The `ends_with()` function is not available in [firewall rules](/firewall/).
 {{</Aside>}}
 
-- <code id="function-len">len({{<type>}}String | bytes{{</type>}})</code> {{<type>}}Integer{{</type>}}
+- <code id="function-len">{{<name>}}len{{</name>}}({{<type>}}String | bytes{{</type>}})</code> {{<type>}}Integer{{</type>}}
 
   - Returns the byte length of a String or Bytes field.
 
@@ -80,7 +80,7 @@ The `ends_with()` function is not available in [firewall rules](/firewall/).
 
     `len(http.host)`
 
-- <code id="function-lookup_json_string">lookup_json_string(field{{<param-type>}}String{{</param-type>}}, key{{<param-type>}}String{{</param-type>}})</code> {{<type>}}String{{</type>}}
+- <code id="function-lookup_json_string">{{<name>}}lookup_json_string{{</name>}}(field{{<param-type>}}String{{</param-type>}}, key{{<param-type>}}String | Integer{{</param-type>}} [, key{{<param-type>}}String | Integer{{</param-type>}}, ...])</code> {{<type>}}String{{</type>}}
 
   - Returns the string value associated with the supplied `key` in `field`.<br/>
   The `field` must be a string representation of a valid JSON object.<br/>
@@ -113,7 +113,7 @@ The `ends_with()` function is not available in [firewall rules](/firewall/).
     The following expression will return `true`:<br/>
     `lookup_json_string(http.request.body.raw, 1, "network") == "cloudflare"`
 
-- <code id="function-lower">lower({{<type>}}String{{</type>}})</code> {{<type>}}String{{</type>}}
+- <code id="function-lower">{{<name>}}lower{{</name>}}({{<type>}}String{{</type>}})</code> {{<type>}}String{{</type>}}
 
   - Converts a string field to lowercase. Only uppercase ASCII bytes are converted. All other bytes are unaffected.
 
@@ -122,7 +122,7 @@ The `ends_with()` function is not available in [firewall rules](/firewall/).
 
     `lower(http.host) == "www.cloudflare.com"`
 
-- <code id="function-regex_replace">regex\_replace(source{{<param-type>}}String{{</param-type>}}, regular\_expression{{<param-type>}}String{{</param-type>}}, replacement{{<param-type>}}String{{</param-type>}})</code> {{<type>}}String{{</type>}}
+- <code id="function-regex_replace">{{<name>}}regex_replace{{</name>}}(source{{<param-type>}}String{{</param-type>}}, regular\_expression{{<param-type>}}String{{</param-type>}}, replacement{{<param-type>}}String{{</param-type>}})</code> {{<type>}}String{{</type>}}
 
     - Replaces a part of a source string matched by a regular expression with a replacement string, returning the result. The replacement string can contain references to regular expression capture groups.
 
@@ -146,46 +146,72 @@ The `ends_with()` function is not available in [firewall rules](/firewall/).
       Replace with capture groups:<br />
       `regex_replace("/foo/a/path", "^/foo/([^/]*)/(.*)$", "/bar/${2}/${1}") == "/bar/path/a/"`
 
+      Create capture groups by putting part of the regular expression in parentheses. Then, reference a capture group using `${<num>}` in the replacement string, where `<num>` is the number of the capture group.
+
 {{<Aside type="warning">}}
-You can only use the `regex_replace()` function in [rewrite expressions of Transform Rules](/rules/transform/). Additionally, the first argument must be a field under `http.request.headers` or `http.request.uri`.
+You can only use the `regex_replace()` function in rewrite expressions of [Transform Rules](/rules/transform/) and target URL expressions of [dynamic URL redirects](/rules/url-forwarding/single-redirects/).
 {{</Aside>}}
 
-- <code id="function-remove_bytes">remove\_bytes({{<type>}}bytes{{</type>}})</code> {{<type>}}bytes{{</type>}}
+- <code id="function-remove_bytes">{{<name>}}remove_bytes{{</name>}}({{<type>}}bytes{{</type>}})</code> {{<type>}}bytes{{</type>}}
 
   - Returns a new byte array with all the occurrences of the given bytes removed.
 
   - <em>Example:</em>
-    <br />
 
-    `remove_bytes(http.host, "\x2e\x77") == "cloudflarecom"`
+    ```txt
+    // With http.host = "www.cloudflare.com":
 
-- <code id="function-starts_with">starts\_with(source{{<param-type>}}String{{</param-type>}}, substring{{<param-type>}}String{{</param-type>}})</code> {{<type>}}Boolean{{</type>}}
+    remove_bytes(http.host, "\x2e\x77") == "cloudflarecom"
+    ```
+
+- <code id="function-starts_with">{{<name>}}starts_with{{</name>}}(source{{<param-type>}}String{{</param-type>}}, substring{{<param-type>}}String{{</param-type>}})</code> {{<type>}}Boolean{{</type>}}
 
   - Returns `true` when the source starts with a given substring. Returns `false` otherwise. The source cannot be a literal value (for example, `"foo"`).
 
-  - *Example:*<br />
-    If `http.request.uri.path` is `"/blog/first-post"`, then `starts_with(http.request.uri.path, "/blog")` will return `true`.
+  - *Example:*
+
+    ```txt
+    // With http.request.uri.path = "/blog/first-post":
+
+    starts_with(http.request.uri.path, "/blog") == true
+    ```
 
 {{<Aside type="warning">}}
 The `starts_with()` function is not available in [firewall rules](/firewall/).
 {{</Aside>}}
 
-- <code id="function-to_string">to\_string({{<type>}}Integer | Boolean | IP address{{</type>}})</code> {{<type>}}String{{</type>}}
+- <code id="function-substring">{{<name>}}substring{{</name>}}(field{{<param-type>}}String | Bytes{{</param-type>}}, start{{<param-type>}}Integer{{</param-type>}} [, end{{<param-type>}}Integer{{</param-type>}}])</code> {{<type>}}String{{</type>}}
+
+  - Returns part of the `field` value (the value of a String or Bytes [field](/ruleset-engine/rules-language/fields/)) from the `start` byte index up to (but excluding) the `end` byte index. The first byte in `field` has index `0`. If you do not provide the optional `end` index, the function returns the part of the string from `start` index to the end of the string.
+
+  - The `end` index must be greater than the `start` index. The `start` and `end` indexes can be negative integer values, which allows you to access characters from the end of the string instead of the beginning.
+
+  - *Examples:*
+
+    ```txt
+    // With http.request.body.raw = "asdfghjk":
+
+    substring(http.request.body.raw, 2, 5) == "dfg"
+    substring(http.request.body.raw, 2) == "dfghjk"
+    substring(http.request.body.raw, -2) == "jk"
+    ```
+
+- <code id="function-to_string">{{<name>}}to_string{{</name>}}({{<type>}}Integer | Boolean | IP address{{</type>}})</code> {{<type>}}String{{</type>}}
 
   - Returns the string representation of an Integer, Boolean, or IP address value.
 
   - *Examples:*
 
     ```txt
-    to_string(cf.bot_management.score) == '5'
-    to_string(ssl) == 'true'
+    to_string(cf.bot_management.score) == "5"
+    to_string(ssl) == "true"
     ```
 
 {{<Aside type="warning">}}
-You can only use the `to_string()` function in [rewrite expressions of Transform Rules](/rules/transform/).
+You can only use the `to_string()` function in rewrite expressions of [Transform Rules](/rules/transform/) and target URL expressions of [dynamic URL redirects](/rules/url-forwarding/single-redirects/).
 {{</Aside>}}
 
-- <code id="function-upper">upper({{<type>}}String{{</type>}})</code> {{<type>}}String{{</type>}}
+- <code id="function-upper">{{<name>}}upper{{</name>}}({{<type>}}String{{</type>}})</code> {{<type>}}String{{</type>}}
 
   - Converts a string field to uppercase. Only lowercase ASCII bytes are converted. All other bytes are unaffected.
 
@@ -194,13 +220,13 @@ You can only use the `to_string()` function in [rewrite expressions of Transform
 
     <code>upper(http.host) == "WWW.CLOUDFLARE.COM"</code>
 
-- <code id="function-url_decode">url\_decode({{<type>}}String{{</type>}})</code> {{<type>}}String{{</type>}}
+- <code id="function-url_decode">{{<name>}}url_decode{{</name>}}({{<type>}}String{{</type>}})</code> {{<type>}}String{{</type>}}
 
   - Decodes a URL formatted string, as in the following:
 
-    - — <code>%20</code> and <code>+</code> decode to space characters <code> </code>
+    - <code>%20</code> and <code>+</code> decode to space characters <code> </code>
 
-    - — <code>%E4%BD</code> decodes to <code>ä½ </code>
+    - <code>%E4%BD</code> decodes to <code>ä½ </code>
 
   - <em>Example:</em>
     <br />
@@ -209,7 +235,7 @@ You can only use the `to_string()` function in [rewrite expressions of Transform
     any(url_decode(http.request.body.form.values[*])[*] contains "an xss attack")
     ```
 
-- <code id="function-uuidv4">uuidv4({{<type>}}Bytes{{</type>}})</code> {{<type>}}String{{</type>}}
+- <code id="function-uuidv4">{{<name>}}uuidv4{{</name>}}({{<type>}}Bytes{{</type>}})</code> {{<type>}}String{{</type>}}
 
   - Generates a random UUIDv4 (Universally Unique Identifier, version 4) based on the given argument (a source of randomness). To obtain an array of random bytes, use the [`cf.random_seed`](/ruleset-engine/rules-language/fields/#field-cf-random_seed) field.
 
@@ -225,11 +251,7 @@ You can only use the `uuidv4()` function in [rewrite expressions of Transform Ru
 
 ## Magic Firewall Functions
 
-- <code id="function-bit_slice">bit\_slice({{<type>}}String{{</type>}}, {{<type>}}Number{{</type>}}, {{<type>}}Number{{</type>}})</code> {{<type>}}Number{{</type>}}
-
-  - Select a slice of contiguous bits from a string field. This is primarily intended for use with <code>ip</code> and <code>tcp</code>.
-  - The slice can be no longer than 31 bits, but multiple calls can be joined together via a logical expression.
-  - Use of structure fields is preferred over this mechanism.
+{{<render file="_magic-firewall-functions.md" productFolder="magic-firewall">}}
 
 ## HMAC validation
 
@@ -258,37 +280,37 @@ The `is_timed_hmac_valid_v0()` function has these parameter definitions:
 
 {{<definitions>}}
 
-- _Key_ {{<type>}}String literal{{</type>}}
+- <code>{{<name>}}Key{{</name>}}</code> {{<type>}}String literal{{</type>}}
 
   - Specifies the secret cryptographic key for validating the HMAC.
 
-- _MessageMAC_ {{<type>}}String{{</type>}}
+- <code>{{<name>}}MessageMAC{{</name>}}</code> {{<type>}}String{{</type>}}
 
-  - Contains a concatenation of these HMAC elements: _message_, _separator_, _timestamp_, _mac_. For a definition and an example, refer to [MessageMAC](#messagemac).
+  - Contains a concatenation of these HMAC elements: `message`, `separator`, `timestamp`, `mac`. For a definition and an example, refer to [MessageMAC](#messagemac).
 
-- _ttl_ {{<type>}}Integer literal{{</type>}}
+- <code>{{<name>}}ttl{{</name>}}</code> {{<type>}}Integer literal{{</type>}}
 
   - Defines the time-to-live for the HMAC token, expressed in seconds. Determines how long the token is valid, relative to the time it was issued.
 
-- _currentTimeStamp_ {{<type>}}Integer{{</type>}}
+- <code>{{<name>}}currentTimeStamp{{</name>}}</code> {{<type>}}Integer{{</type>}}
 
   - Represents the Unix timestamp when Cloudflare received the request, expressed in seconds. Pass the `http.request.timestamp.sec` field as an approximate value to this argument.
 
-- _lengthOfSeparator_ {{<type>}}Integer literal{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
+- <code>{{<name>}}lengthOfSeparator{{</name>}}</code> {{<type>}}Integer literal{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
 
-  - Specifies the length of the _separator_ between the _timestamp_ and the _message_ in the _MessageMAC_. Expressed in bytes, with a default value of 0.
+  - Specifies the length of the `separator` between the `timestamp` and the `message` in the `MessageMAC`. Expressed in bytes, with a default value of `0`.
 
-- _flags_ {{<type>}}String literal{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
+- <code>{{<name>}}flags{{</name>}}</code> {{<type>}}String literal{{</type>}} {{<prop-meta>}}optional{{</prop-meta>}}
 
-  - When you set this optional argument to `'s'`, the function expects the value of the base64-encoded _mac_ in the _MessageMAC_ argument to use the URL-safe character set with no padding.
+  - When you set this optional argument to `'s'`, the function expects the value of the Base64-encoded `mac` in the `MessageMAC` argument to use the URL-safe character set with no padding.
 
-  - When you do **not** set the value of _flags_ to `'s'`, you must URL encode the base64 value for _mac_ in the _MessageMAC_ argument.
+  - When you do **not** set the value of `flags` to `'s'`, you must URL encode the Base64 value for `mac` in the `MessageMAC` argument.
 
 {{</definitions>}}
 
 ### Usage
 
-The `is_timed_hmac_valid_v0()` function uses the supplied _Key_ to generate a message authentication code (MAC) from the _message_ and the _timestamp_ regions of the MessageMAC. When the generated MAC matches the _mac_ region of the MessageMAC and the token has not expired, the HMAC is valid and the function returns `true`.
+The `is_timed_hmac_valid_v0()` function uses the supplied _Key_ to generate a message authentication code (MAC) from the `message` and the `timestamp` regions of the MessageMAC. When the generated MAC matches the `mac` region of the MessageMAC and the token has not expired, the HMAC is valid and the function returns `true`.
 
 For example, the following expression matches requests to `download.example.com` that do not include valid HMAC tokens:
 
@@ -297,13 +319,13 @@ http.host == "download.example.com"
 and not is_timed_hmac_valid_v0("mysecretkey", http.request.uri, 100000, http.request.timestamp.sec, 8)
 ```
 
-For examples of rules that use HMAC validation, refer to [Firewall Rules: Common use cases](/firewall/recipes/).
+For examples of rules that use HMAC validation, refer to [Require a valid HMAC token](/waf/custom-rules/use-cases/require-valid-hmac-token/) in the WAF documentation.
 
 ### MessageMAC
 
-A valid MessageMAC satisfies the regular expression
+A valid MessageMAC satisfies the following regular expression:
 
-```java
+```txt
 (.+)(.*)(\d{10})-(.{43,})
 ```
 
@@ -320,56 +342,58 @@ and is composed of these parentheses-delimited expressions:
   <tbody>
     <tr>
       <td valign="top"><code>(.+)</code></td>
-      <td>The <em>message</em> to validate.</td>
-      <td valign="top"><nlineCode">/download/cat.jpg</code></td>
+      <td>The <code>message</code> to validate.</td>
+      <td valign="top"><code>/download/cat.jpg</code></td>
     </tr>
     <tr>
       <td valign="top"><code>(.*)</code></td>
-      <td>The <em>separator</em> between message and timestamp, commonly a parameter name.</td>
-      <td valign="top"><nlineCode">&verify=</code></td>
+      <td>The <code>separator</code> between message and timestamp, commonly a parameter name.</td>
+      <td valign="top"><code>&verify=</code></td>
     </tr>
     <tr>
       <td valign="top"><code>(\d{10})</code></td>
-      <td>The 10-digit Unix <em>timestamp</em> when the MAC was issued, expressed in seconds.</td>
-      <td valign="top"><nlineCode">1484063137</code></td>
+      <td>The 10-digit Unix <code>timestamp</code> when the MAC was issued, expressed in seconds.</td>
+      <td valign="top"><code>1484063137</code></td>
     </tr>
     <tr>
       <td valign="top"><code>(.{43,})</code></td>
-      <td><p>A base64-encoded version of the <em>MAC</em>. When you do not set the value of the <em>urlSafe</em> argument in the HMAC validation function to <code>'s'</code>, you must URL encode the base64 value for <em>mac</em>.</p>
-      <p>When the base64 MAC encoding is URL-safe, the value for <em>mac</em> contains 43 bytes. Otherwise, the value will be 44 bytes or more, because of URL encoding.</p></td>
-      <td valign="top"><nlineCode">IaLGSmELTvlhfd0ItdN6PhhHTFhzx<br />73EX8uy%2FcSDiIU%3D</code></td>
+      <td><p>A Base64-encoded version of the <code>mac</code>. When you do not set the value of the <code>urlSafe</code> argument in the HMAC validation function to <code>'s'</code>, you must URL-encode the Base64 value for <code>mac</code>.</p>
+      <p>When the Base64 MAC encoding is URL-safe, the <code>mac</code> value contains 43 bytes. Otherwise, the value will be 44 bytes or more, because of URL encoding.</p></td>
+      <td valign="top"><code>IaLGSmELTvlhfd0ItdN6PhhHTFhzx<br />73EX8uy%2FcSDiIU%3D</code></td>
     </tr>
   </tbody>
 </table>
 
-For details on generating a MessageMAC, refer to [Implement token creation](https://support.cloudflare.com/hc/articles/115001376488#6P9Gz7kmyxQrpL6r6iPKQR).
+For details on generating a MessageMAC, refer to [Implement token creation](/support/firewall/learn-more/configuring-token-authentication/#implement-token-creation).
 
 ## HMAC validation examples
 
 {{<Aside type="warning" header="Important">}}
 
-When you do not use the optional _flags_ argument for `is_timed_hmac_valid_v0()`, you must URL encode the base64 value for _mac_ in the _MessageMAC_ argument.
+When you do not use the optional `flags` argument for `is_timed_hmac_valid_v0()`, you must URL-encode the Base64 value for `mac` in the `MessageMAC` argument.
 
 For more information, refer to [HMAC Validation: Overview](#overview).
 
 {{</Aside>}}
 
-### Simple case
+### MessageMAC in a single field
 
 Consider the case where the MessageMAC is contained entirely within a single field, as in this example URI path:
 
-```http
+```txt
 /download/cat.jpg?verify=1484063787-IaLGSmELTvlhfd0ItdN6PhhHTFhzx73EX8uy%2FcSDiIU%3D
 ```
 
 Note how the URI maps to the elements of the MessageMAC:
 
-- _message_: `/download/cat.jpg`
-- _separator_: `?verify=`
-- _timestamp_: `1484063787`
-- _mac_: `IaLGSmELTvlhfd0ItdN6PhhHTFhzx73EX8uy%2FcSDiIU%3D`
+Element     | Value
+------------|---------------------------------------------------
+`message`   | `/download/cat.jpg`
+`separator` | `?verify=` (with length `8`)
+`timestamp` | `1484063787`
+`mac`       | `IaLGSmELTvlhfd0ItdN6PhhHTFhzx73EX8uy%2FcSDiIU%3D`
 
-When the MessageMAC is contained entirely within a single field such as `http.request.uri`, using the validation function is straightforward. Pass the name of the field to the _MessageMAC_ argument:
+When the MessageMAC is contained entirely within a single field such as `http.request.uri`, pass the field name to the `MessageMAC` argument of the HMAC validation function:
 
 ```java
 is_timed_hmac_valid_v0(
@@ -383,9 +407,9 @@ is_timed_hmac_valid_v0(
 
 ### Concatenated MessageMAC argument
 
-To compose a MessageMAC from more than one field, use the `concat()` function.
+To compose a MessageMAC from more than one field, use the [`concat()`](#function-concat) function.
 
-This example constructs the MessageMAC by concatenating the request URI and two header fields:
+This example constructs the value of the `MessageMAC` argument by concatenating the request URI and two header fields:
 
 ```java
 is_timed_hmac_valid_v0(
@@ -400,5 +424,3 @@ is_timed_hmac_valid_v0(
   0
 )
 ```
-
-For more on `concat()` usage, refer to [Transformation functions](#transformation-functions).

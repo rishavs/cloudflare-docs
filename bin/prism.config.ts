@@ -1,10 +1,13 @@
 import Prism from 'prismjs';
+import rangeParser from 'parse-numeric-range';
 
 import type { Token, TokenStream } from 'prismjs';
 
 globalThis.Prism = Prism;
 import 'prismjs/components/prism-bash.min.js';
 import 'prismjs/components/prism-c.min.js';
+import 'prismjs/components/prism-csharp.min.js';
+import 'prismjs/components/prism-csv.min.js';
 import 'prismjs/components/prism-diff.min.js';
 import 'prismjs/components/prism-git.min.js';
 import 'prismjs/components/prism-go.min.js';
@@ -14,7 +17,10 @@ import 'prismjs/components/prism-http.min.js';
 import 'prismjs/components/prism-ini.min.js';
 import 'prismjs/components/prism-java.min.js';
 import 'prismjs/components/prism-json.min.js';
+import 'prismjs/components/prism-jsx.min.js';
 import 'prismjs/components/prism-markdown.min.js';
+import 'prismjs/components/prism-perl.min.js';
+import 'prismjs/components/prism-php.min.js';
 import 'prismjs/components/prism-python.min.js';
 import 'prismjs/components/prism-ruby.min.js';
 import 'prismjs/components/prism-rust.min.js';
@@ -218,7 +224,7 @@ function normalize(tokens: (Token | string)[]) {
   return lines;
 }
 
-export function highlight(code: string, lang: string): string {
+export function highlight(code: string, lang: string, file: string): string {
   lang = langs[lang] || lang || 'txt';
   let grammar = Prism.languages[lang.toLowerCase()];
 
@@ -229,12 +235,14 @@ export function highlight(code: string, lang: string): string {
 
   let frontmatter: {
     theme?: string | 'light';
-    highlight?: `[${string}]`;
+    highlight?: `[${string}]` | string;
     filename?: string;
     header?: string;
   } = {};
 
-  if (code.substring(0, 3) === '---') {
+  // Check for a YAML frontmatter,
+  // and ensure it's not something like -----BEGIN CERTIFICATE-----
+  if (code.substring(0, 3) === '---' && code[3] != '-') {
     let index = code.indexOf('---', 3);
     if (index > 3) {
       index += 3;
@@ -253,7 +261,21 @@ export function highlight(code: string, lang: string): string {
     }
   }
 
-  let highlights = new Set(JSON.parse(frontmatter.highlight || '[]').map((x: number) => x - 1));
+  let highlights: Set<number>;
+
+  try {
+    let highlight = frontmatter.highlight;
+    // let range-parser do the heavy lifting. It handles all supported cases
+    if (highlight?.startsWith('[')) {
+      highlight = highlight.substring(1, highlight.length - 1);
+    }
+    const parsedRange = rangeParser(highlight || '')
+    highlights = new Set(parsedRange.map((x: number) => x - 1));
+  } catch (err) {
+    process.stderr.write(`[ERROR] ${file}\nSyntax highlighting error: You must specify the lines to highlight as an array (e.g., '[2]'). Found '${frontmatter.highlight}'.\n`);
+    // still throwing the original error because it could be something else
+    throw err;
+  }
 
   // tokenize & build custom string output
   let tokens = Prism.tokenize(code, grammar);
@@ -268,6 +290,7 @@ export function highlight(code: string, lang: string): string {
   if (frontmatter.header) output += `<span class="CodeBlock--header">${frontmatter.header}</span>`;
   else if (frontmatter.filename)
     output += `<span class="CodeBlock--filename">${frontmatter.filename}</span>`;
+  else output += `<span class="CodeBlock--header"><br/></span>`;
 
   output += '<code>';
   output += '<span class="CodeBlock--rows">';

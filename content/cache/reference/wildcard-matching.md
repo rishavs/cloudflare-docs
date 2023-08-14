@@ -23,7 +23,7 @@ example.com/t\*st would match:
 - To match every page on a domain and its subdomains, write `*example.com/*`. Writing `example.com` won’t work.
 - A wildcard (`*`) in a Page Rule URL will match even if no characters are present and may include any part of the URL, including the query string.
 
-## Referencing wildcard matches
+## Reference wildcard matches
 
 You can reference a matched wildcard later using the `$X` syntax, where `X` indicates the index of a glob pattern. As a result, `$1` represents the first wildcard match, `$2` represents the second wildcard match, and so on.
 
@@ -35,6 +35,6 @@ To add a $ character in the forwarding URL, escape it by adding a backslash `\` 
 
 {{<Aside type="warning" header="Warning">}}
 
-Avoid creating a redirect where the domain points to itself as the destination. A domain that points to itself can cause an [infinite redirect error](https://support.cloudflare.com/hc/articles/115000219871#h_af6598f6-bc1c-4a4d-ac5f-538230a704b7), which makes your site inaccessible to visitors.
+Avoid creating a redirect where the domain points to itself as the destination. A domain that points to itself can cause an [infinite redirect error](/ssl/troubleshooting/too-many-redirects/), which makes your site inaccessible to visitors.
 
 {{</Aside>}}

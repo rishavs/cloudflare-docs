@@ -25,7 +25,7 @@ cf: {image: {anim: false}}
 
 #### `background`
 
-Background color to add underneath the image. Applies only to images with transparency (for example, PNG). Accepts any CSS color, such as `#RRGGBB` and `rgba(…)`. Example:
+Background color to add underneath the image. Applies to images with transparency (for example, PNG) and images resized with `fit=pad`. Accepts any CSS color, such as `#RRGGBB` and `rgba(…)`. Example:
 
 ```js
 ---
@@ -63,6 +63,18 @@ header: Workers
 cf: {image: {blur: 50}}
 ```
 
+#### `border`
+
+Adds a border around the image. The border is added after resizing. Border width takes `dpr` into account, and can be specified either using a single `width` property, or individually for each side.
+
+```js
+---
+header: Workers
+---
+cf: {image: {border: {color: "rgb(0,0,0,0)", top: 5, right: 10, bottom: 5, left: 10}}}
+cf: {image: {border: {color: "#FFFFFF", width: 10}}}
+```
+
 #### `brightness`
 
 Increase brightness by a factor. A value of `1.0` equals no change, a value of `0.5` equals half brightness, and a value of `2.0` equals twice as bright. `0` is ignored. Example:
@@ -79,6 +91,24 @@ brightness=0.5
 header: Workers
 ---
 cf: {image: {brightness: 0.5}}
+```
+
+#### `compression=fast`
+
+Slightly reduces latency on a cache miss by selecting a quickest-to-compress file format, at a cost of increased file size and lower image quality. It will usually override the `format` option and choose JPEG over WebP or AVIF. We do not recommend using this option, except in unusual circumstances like resizing uncacheable dynamically-generated images.
+
+```js
+---
+header: URL format
+---
+compression=fast
+```
+
+```js
+---
+header: Workers
+---
+cf: {image: {compression: "fast"}}
 ```
 
 #### `contrast`
@@ -215,6 +245,8 @@ The `auto` option will serve the WebP or AVIF format to browsers that support it
 Workers integration supports:
 - `avif`: Generate images in AVIF format if possible (with WebP as a fallback).
 - `webp`: Generate images in Google WebP format. Set the quality to `100` to get the WebP lossless format.
+- `jpeg`: Generate images in interlaced progressive JPEG format, in which data is compressed in multiple passes of progressively higher detail.
+- `baseline-jpeg`: Generate images in baseline sequential JPEG format. It should be used in cases when target devices don't support progressive JPEG or other modern file formats.
 - `json`: Instead of generating an image, outputs information about the image in JSON format. The JSON object will contain data such as image size (before and after resizing), source image’s MIME type, and file size.
 
 Example:
@@ -224,6 +256,13 @@ Example:
 header: URL format
 ---
 format=auto
+```
+
+```js
+---
+header: URL format alias
+---
+f=auto
 ```
 
 ```js
@@ -285,6 +324,13 @@ When cropping with `fit: "cover"` and `fit: "crop"`, this parameter defines the 
 
   ```js
   ---
+  header: URL format alias
+  ---
+  g=auto
+  ```
+
+  ```js
+  ---
   header: Workers
   ---
   cf: {image: {gravity: "auto"}}
@@ -326,6 +372,13 @@ Specifies maximum height of the image in pixels. Exact behavior depends on the `
 header: URL format
 ---
 height=250
+```
+
+```js
+---
+header: URL format alias
+---
+h=250
 ```
 
 ```js
@@ -425,6 +478,13 @@ quality=50
 
 ```js
 ---
+header: URL format alias
+---
+q=50
+```
+
+```js
+---
 header: Workers
 ---
 cf: {image: {quality: 50}}
@@ -468,20 +528,24 @@ cf: {image: {sharpen: 2}}
 
 #### `trim`
 
-Specifies a number of pixels to cut off on each side. Allows removal of borders or cutting out a specific fragment of an image. Trimming is performed before resizing or rotation. Takes `dpr` into account. For Image Resizing and Cloudflare Images, use as four numbers in pixels separated by a semicolon, in the form of `top;right;bottom;left`. For the Workers integration, specify an object with four properties: `{top, right, bottom, left}`. Example:
+Specifies a number of pixels to cut off on each side. Allows removal of borders or cutting out a specific fragment of an image. Trimming is performed before resizing or rotation. Takes `dpr` into account. For Image Resizing and Cloudflare Images, use as four numbers in pixels separated by a semicolon, in the form of `top;right;bottom;left` or via separate values `trim.width`,`trim.height`, `trim.left`,`trim.top`. For the Workers integration, specify an object with properties: `{top, right, bottom, left, width, height}`. Example:
 
 ```js
 ---
 header: URL format
 ---
 trim=20;30;20;0
+trim.width=678
+trim.height=678
+trim.left=30
+trim.top=40
 ```
 
 ```js
 ---
 header: Workers
 ---
-cf: {image: {trim: {"top": 12, "bottom": 34, "left": 56, "right": 78}}}
+cf: {image: {trim: {top: 12,  right: 78, bottom: 34, left: 56, width:678, height:678}}}
 ```
 
 #### `width`
@@ -494,6 +558,14 @@ header: URL format
 ---
 width=250
 ```
+
+```js
+---
+header: URL format alias
+---
+w=250
+```
+
 
 ```js
 ---

@@ -1,11 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - '**'
-    tags-ignore:
-      - '**'
   pull_request:
     branches:
       - production
@@ -15,15 +10,15 @@ jobs:
     name: Compiles
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18.1
       - uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: '0.92.0'
+          hugo-version: '0.110.0'
           extended: true
 
       - name: (env) pnpm
@@ -31,17 +26,21 @@ jobs:
 
       - run: pnpm install
 
-      - run: hugo --minify
+      - run: make build
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
 
-      - name: Broken Links
+      - name: Check - Broken Links
         run: pnpm run crawl
         if: success()
+
+      
   # lint:
   #   name: Lint
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
   #       with:
   #         node-version: 16
   #     - name: (env) pnpm

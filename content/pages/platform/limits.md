@@ -9,21 +9,23 @@ Below are limits observed by the Cloudflare Free plan. For more details on remov
 
 {{<Aside type="note">}}
 
-We want to encourage you to build any application you can dream up, and realize that doesn't always fit within our limits. 
-
-To increase any of our limits, [please fill out our form!](https://forms.gle/ukpeZVLWLnKeixDu7)
+You can request adjustments to limits that conflict with your project goals by contacting Cloudflare. To request an increase to a limit, complete the [Limit Increase Request Form](https://forms.gle/ukpeZVLWLnKeixDu7) and we will contact you with next steps.
 
 {{</Aside>}}
 
 ## Builds
 
-Each time you push new code to your Git repository, Pages will build and deploy your site. You can deploy up to 500 times per month on the Free plan. Refer to the Pro and Business plans in [Pricing](https://pages.cloudflare.com/#pricing) if you need to deploy more frequently.
+Each time you push new code to your Git repository, Pages will build and deploy your site. You can build up to 500 times per month on the Free plan. Refer to the Pro and Business plans in [Pricing](https://pages.cloudflare.com/#pricing) if you need more builds.
 
 Builds will timeout after 20 minutes.
 
 ## Custom domains
 
-A Cloudflare Pages project can be attached to a maximum of ten (10) custom domains at a time.
+A Cloudflare Pages project can be attached to a certain number of domains per plan.
+
+| Free | Pro | Business | Enterprise |
+| ---- | --- | -------- | ---------- |
+| 100  | 250 | 500      | 500        |
 
 ## Files
 
@@ -43,7 +45,7 @@ You can have an unlimited number of [preview deployments](/pages/platform/previe
 
 ## Redirects
 
-A `_redirects` file can have a maximum of 2,000 static redirects and 100 dynamic redirects, for a combined total of 2,100 redirects. It is recommended to use [Bulk Redirects](/pages/how-to/use-bulk-redirects/) when you have a need for more than the `_redirects` file supports.
+A `_redirects` file can have a maximum of 2,000 static redirects and 100 dynamic redirects, for a combined total of 2,100 redirects. It is recommended to use [Bulk Redirects](/pages/platform/redirects/#surpass-_redirects-limits) when you have a need for more than the `_redirects` file supports.
 
 ## Users
 
